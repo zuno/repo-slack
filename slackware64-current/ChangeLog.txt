@@ -1,3 +1,7 @@
+Thu May 24 20:34:47 CEST 2012
+-----------------------------
+	modified:   nvidia-linux/nvidia-linux.SlackBuild
+
 Tue May 22 00:45:26 CEST 2012
 -----------------------------
 	new file:   GeoIP/GeoIP.SlackBuild

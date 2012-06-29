@@ -30,7 +30,7 @@ set -e
 
 # Basic information. 
 PKGNAME=nvidia-linux
-VERSION=${VERSION:-302.07}
+VERSION=${VERSION:-295.53}
 BUILD=${BUILD:-1}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
@@ -38,7 +38,7 @@ COMPAT32=${COMPAT32:-yes} # no / yes
 MODPREBUILD=${MODPREBUILD:-yes} # no / yes
 NARCH=x86
 if [ $ARCH == "x86_64" ];then NARCH=x86_64;fi 
-SOURCE="http://download.nvidia.com/XFree86/Linux-$ARCH/$VERSION/NVIDIA-Linux-$NARCH-$VERSION.run"
+SOURCE="http://it.download.nvidia.com/XFree86/Linux-$ARCH/$VERSION/NVIDIA-Linux-$NARCH-$VERSION.run"
 TAR=NVIDIA-Linux-$NARCH-$VERSION.run      # empty = auto
 DIR=NVIDIA-Linux-$NARCH-$VERSION      # empty = auto
 

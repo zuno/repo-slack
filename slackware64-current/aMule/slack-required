@@ -48,7 +48,6 @@ libtiff >= 3.9.6-x86_64-1
 libupnp >= 1.6.17-x86_64-1mt
 libxcb >= 1.8.1-x86_64-1
 libxml2 >= 2.7.8-x86_64-3
-nvidia-linux >= 295.53-x86_64-1mt
 pango >= 1.28.4-x86_64-1
 perl >= 5.14.2-x86_64-1
 phonon >= 4.6.0-x86_64-1
