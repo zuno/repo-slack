@@ -1,0 +1,10 @@
+glib2 >= 2.28.6-x86_64-1
+glibc-solibs >= 2.15-x86_64-2
+gssdp >= 0.12.1-x86_64-1mt
+gstreamer >= 0.10.32-x86_64-1
+gupnp >= 0.18.2-x86_64-1mt
+gupnp-igd >= 0.2.1-x86_64-1mt
+libsoup >= 2.35.5-x86_64-1mt
+libxml2 >= 2.7.8-x86_64-3
+util-linux >= 2.19-x86_64-1
+zlib >= 1.2.6-x86_64-1

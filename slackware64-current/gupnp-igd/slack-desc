@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+         |-----handy-ruler----------------------------------------------------|
+gupnp-igd: GUPNP-IGD (UPnP IDG Libraries)
+gupnp-igd:
+gupnp-igd: GUPnP is an object-oriented open source framework for creating UPnP
+gupnp-igd: devices and control points, written in C using GObject and libsoup.
+gupnp-igd: The GUPnP API is intended to be easy to use, efficient and flexible
+gupnp-igd:
+gupnp-igd:
+gupnp-igd:
+gupnp-igd:
+gupnp-igd:
+gupnp-igd:

@@ -2,11 +2,11 @@
 
 # Heavily based on the Slackware 13.37 SlackBuild (v1)
 
-# Written by <your name> ( your [at] email.address )
+# Written by Loris Vincenzi (http://www.slacky.eu)
 # Last build from Matteo Rossini ( zerouno @ slacky.it )
 
-# Slackware build script for <appname>
-# Official Site: http://get.adobe.com/it/flashplayer/
+# Slackware build script for libevent
+# Official Site: http://www.monkey.org/~provos/libevent/
 
 # Redistribution and use of this script, with or without modification, is
 # permitted provided that the following conditions are met:
@@ -29,14 +29,15 @@ set -e
 
 
 # Basic information. 
-PKGNAME=flash-player
-VERSION=${VERSION:-11.1.102.62}
+PKGNAME=libevent
+VERSION=${VERSION:-2.0.18}
 BUILD=${BUILD:-1}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
-SOURCE="http://fpdownload.macromedia.com/get/flashplayer/pdc/$VERSION/install_flash_player_11_linux.$ARCH.tar.gz"
+SOURCE="http://www.monkey.org/~provos/$PKGNAME-$VERSION-stable.tar.gz"
+SOURCE="https://github.com/downloads/$PKGNAME/$PKGNAME/$PKGNAME-$VERSION-stable.tar.gz"
 TAR=      # empty = auto
-DIR=.      # empty = auto
+DIR=      # empty = auto
 
 # If EULA
 if [ -e EULA.TXT ];then
@@ -80,21 +81,35 @@ fi
 ### Preparing Source
 rm -rf $TMP
 mkdir -p $TMP $PKG $OUTPUT
-cd $PKG
+cd $TMP
 tar xvf $CWD/$TAR
 cd $DIR
-
 
 chown -R root:root .
 chmod -R u+w,go+r-w,a-s .
 
 # Customize as you need
-mkdir -p usr/lib$LIBDIRSUFFIX/mozilla/plugins
-mv libflashplayer.so usr/lib$LIBDIRSUFFIX/mozilla/plugins
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+./configure \
+  --prefix=/usr \
+  --libdir=/usr/lib$LIBDIRSUFFIX \
+  --sysconfdir=/etc \
+  --docdir=/usr/doc/$PKGNAME-$VERSION \
+  --disable-static \
+  --localstatedir=/var \
+  --mandir=/usr/man \
+  --build=$CHOST-slackware-linux
+make
+make install DESTDIR=$PKG
+
+## Do special operations
 
 # Documentations
 mkdir -p $PKG/usr/doc/$PKGNAME-$VERSION
-#mv readme.txt  $PKG/usr/doc/$PKGNAME-$VERSION
+cp -r \
+  [A-Z]* \
+  $PKG/usr/doc/$PKGNAME-$VERSION
 
 cat $CWD/$PKGNAME.SlackBuild > $PKG/usr/doc/$PKGNAME-$VERSION/$PKGNAME.SlackBuild
 cat $CWD/slack-desc > $PKG/usr/doc/$PKGNAME-$VERSION/slack-desc

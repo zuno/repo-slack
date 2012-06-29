@@ -2,11 +2,11 @@
 
 # Heavily based on the Slackware 13.37 SlackBuild (v1)
 
-# Written by <your name> ( your [at] email.address )
+# Written by Gabriele Inghirami - ( albatros on www.slacky.it ) - suonodelsilenzio A-t tiscalinet dOt it
 # Last build from Matteo Rossini ( zerouno @ slacky.it )
 
-# Slackware build script for <appname>
-# Official Site: http://get.adobe.com/it/flashplayer/
+# Slackware build script for libsoup
+# Official Site: http://www.gnome.org
 
 # Redistribution and use of this script, with or without modification, is
 # permitted provided that the following conditions are met:
@@ -25,18 +25,20 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+# require: libgnome-keyring
+
 set -e
 
 
 # Basic information. 
-PKGNAME=flash-player
-VERSION=${VERSION:-11.1.102.62}
+PKGNAME=libsoup
+VERSION=${VERSION:-2.35.5}
 BUILD=${BUILD:-1}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
-SOURCE="http://fpdownload.macromedia.com/get/flashplayer/pdc/$VERSION/install_flash_player_11_linux.$ARCH.tar.gz"
+SOURCE="http://ftp.gnome.org/pub/GNOME/sources/libsoup/$(echo $VERSION|cut -f1-2 -d.)/$PKGNAME-$VERSION.tar.bz2"
 TAR=      # empty = auto
-DIR=.      # empty = auto
+DIR=      # empty = auto
 
 # If EULA
 if [ -e EULA.TXT ];then
@@ -55,7 +57,7 @@ TMP=${TMP:-/tmp/buildpkgs/$PKGNAME}
 PKG=$TMP/package-$PKGNAME
 OUTPUT=${OUTPUT:-$CWD}
 TAR=${TAR:-$(basename $SOURCE)}
-DIR=${DIR:-$(echo "$TAR"|sed -r 's/(\.tar|)(.gz|.bz2|)$//')}
+DIR=${DIR:-$(echo "$TAR"|sed -r 's/(\.tar|)(.gz|.bz2|.xz|)$//')}
 
 if [ ! -e "$CWD/$TAR" ];then
   wget "$SOURCE" -O "$CWD/$TAR"
@@ -80,21 +82,33 @@ fi
 ### Preparing Source
 rm -rf $TMP
 mkdir -p $TMP $PKG $OUTPUT
-cd $PKG
+cd $TMP
 tar xvf $CWD/$TAR
 cd $DIR
-
 
 chown -R root:root .
 chmod -R u+w,go+r-w,a-s .
 
 # Customize as you need
-mkdir -p usr/lib$LIBDIRSUFFIX/mozilla/plugins
-mv libflashplayer.so usr/lib$LIBDIRSUFFIX/mozilla/plugins
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+./configure \
+  --prefix=/usr \
+  --libdir=/usr/lib$LIBDIRSUFFIX \
+  --sysconfdir=/etc \
+  --docdir=/usr/doc/$PKGNAME-$VERSION \
+  --localstatedir=/var \
+  --mandir=/usr/man \
+  --disable-static \
+  --build=$CHOST-slackware-linux
+make
+make install DESTDIR=$PKG
 
 # Documentations
 mkdir -p $PKG/usr/doc/$PKGNAME-$VERSION
-#mv readme.txt  $PKG/usr/doc/$PKGNAME-$VERSION
+cp -r \
+  [A-Z]* \
+  $PKG/usr/doc/$PKGNAME-$VERSION
 
 cat $CWD/$PKGNAME.SlackBuild > $PKG/usr/doc/$PKGNAME-$VERSION/$PKGNAME.SlackBuild
 cat $CWD/slack-desc > $PKG/usr/doc/$PKGNAME-$VERSION/slack-desc

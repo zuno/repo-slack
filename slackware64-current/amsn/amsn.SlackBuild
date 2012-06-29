@@ -2,11 +2,11 @@
 
 # Heavily based on the Slackware 13.37 SlackBuild (v1)
 
-# Written by <your name> ( your [at] email.address )
+# Written by Loris Vincenzi (http://www.slacky.eu)
 # Last build from Matteo Rossini ( zerouno @ slacky.it )
 
-# Slackware build script for <appname>
-# Official Site: http://get.adobe.com/it/flashplayer/
+# Slackware build script for amsn
+# Official Site: http://amsn.sourceforge.net/
 
 # Redistribution and use of this script, with or without modification, is
 # permitted provided that the following conditions are met:
@@ -29,14 +29,14 @@ set -e
 
 
 # Basic information. 
-PKGNAME=flash-player
-VERSION=${VERSION:-11.1.102.62}
-BUILD=${BUILD:-1}
+PKGNAME=amsn
+VERSION=${VERSION:-0.98.4}
+BUILD=${BUILD:-3}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
-SOURCE="http://fpdownload.macromedia.com/get/flashplayer/pdc/$VERSION/install_flash_player_11_linux.$ARCH.tar.gz"
+SOURCE="http://downloads.sourceforge.net/project/$PKGNAME/$PKGNAME/$VERSION/$PKGNAME-$VERSION-src.tar.bz2"
 TAR=      # empty = auto
-DIR=.      # empty = auto
+DIR=$PKGNAME-$VERSION      # empty = auto
 
 # If EULA
 if [ -e EULA.TXT ];then
@@ -80,21 +80,42 @@ fi
 ### Preparing Source
 rm -rf $TMP
 mkdir -p $TMP $PKG $OUTPUT
-cd $PKG
+cd $TMP
 tar xvf $CWD/$TAR
 cd $DIR
 
+patch -p0 < $CWD/libv4l1-videodev.h.patch
 
 chown -R root:root .
 chmod -R u+w,go+r-w,a-s .
 
 # Customize as you need
-mkdir -p usr/lib$LIBDIRSUFFIX/mozilla/plugins
-mv libflashplayer.so usr/lib$LIBDIRSUFFIX/mozilla/plugins
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+./configure \
+  --prefix=/usr \
+  --libdir=/usr/lib$LIBDIRSUFFIX \
+  --sysconfdir=/etc \
+  --docdir=/usr/doc/$PKGNAME-$VERSION \
+  --htmldir=/usr/doc/$PKGNAME-$VERSION/html \
+  --localstatedir=/var \
+  --mandir=/usr/man \
+  --build=$CHOST-slackware-linux
+make
+(
+  cd plugins/amsnplus/
+  make clean
+  make
+)
+make install DESTDIR=$PKG
+
+
 
 # Documentations
 mkdir -p $PKG/usr/doc/$PKGNAME-$VERSION
-#mv readme.txt  $PKG/usr/doc/$PKGNAME-$VERSION
+cp -r \
+  [A-Z]* \
+  $PKG/usr/doc/$PKGNAME-$VERSION
 
 cat $CWD/$PKGNAME.SlackBuild > $PKG/usr/doc/$PKGNAME-$VERSION/$PKGNAME.SlackBuild
 cat $CWD/slack-desc > $PKG/usr/doc/$PKGNAME-$VERSION/slack-desc
@@ -120,7 +141,7 @@ cd $PKG
 chown -R root:root $PKG
 
 if [ -x "$(which requiredbuilder 2>/dev/null)" ];then
-  requiredbuilder -y -v -s $CWD $PKG   # add "-c -b" if you have binary files in /usr/share 
+  ADD="$(basename $(ls /var/log/packages/tls-*)|sed 's/-/ >= /')" requiredbuilder -y -c -b -v -s $CWD $PKG   # add "-c -b" if you have binary files in /usr/share 
 fi
 
 /sbin/makepkg -l y -c n $OUTPUT/$PKGNAME-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-txz}

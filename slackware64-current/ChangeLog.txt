@@ -1,3 +1,17 @@
+Thu Apr 26 12:15:02 CEST 2012
+-----------------------------
+	new file:   amsn/amsn.SlackBuild
+	new file:   farsight2/farsight2.SlackBuild
+	modified:   flash-player/flash-player.SlackBuild
+	new file:   glib-networking/glib-networking.SlackBuild
+	new file:   gssdp/gssdp.SlackBuild
+	new file:   gupnp-igd/gupnp-igd.SlackBuild
+	new file:   gupnp/gupnp.SlackBuild
+	new file:   libevent/libevent.SlackBuild
+	new file:   libnice/libnice.SlackBuild
+	new file:   libsoup/libsoup.SlackBuild
+	new file:   tls/tls.SlackBuild
+
 Sun Apr 22 00:50:36 CEST 2012
 -----------------------------
 	modified:   libproxy/libproxy.SlackBuild
