@@ -1,0 +1,10 @@
+--- ./libproxy/url.cpp.orig     2012-04-19 12:50:11.554474335 +0200
++++ ./libproxy/url.cpp  2012-04-19 12:50:22.557473879 +0200
+@@ -33,6 +33,7 @@
+ #include <cstdlib>    // For atoi()
+ #include <sys/stat.h> // For stat()
+ #include <algorithm> // For transform()
++#include <unistd.h>
+ 
+ #ifdef WIN32
+ #include <io.h>

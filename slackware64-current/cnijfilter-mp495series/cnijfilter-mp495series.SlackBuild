@@ -1,0 +1,198 @@
+#!/bin/bash
+
+#[Printer Model Name]        [Printer Model ID]
+#------------------------------------------------------------------
+#mp250                       356
+#mp280                       370
+#mp495                       369
+#mg5100                      373
+#ip4800                      375
+#mg5200                      374
+#mg6100                      376
+#mg8100                      377
+# Note: only package 3.40 support these models
+
+set -e
+
+MODEL=mp495
+MODEL_NUM=369
+
+PKGNAME=cnijfilter-source
+VERSION=3.40
+RELEASE=1
+BUILD=2mt
+SOURCE="http://gdlp01.c-wss.com/gds/0/0100003020/01/cnijfilter-source-3.40-1.tar.gz"
+TAR=$PKGNAME-$VERSION-$RELEASE.tar.gz
+DIR=$PKGNAME-$VERSION-$RELEASE
+ARCH=x86_64
+
+CWD=`pwd`
+TMP=/tmp/buildpkgs/$PKGNAME
+PKGDIR=$TMP/package-$PKGNAME
+
+rm -rf $TMP $PKGDIR
+mkdir -p $TMP $PKGDIR
+
+
+if [ ! -e $TAR ];then
+  wget $SOURCE
+fi
+
+
+# from .spec
+if [ $ARCH == x86_64 ];then
+  _arc=64
+  _is64=64
+else
+  _arc=32
+  _is64=
+fi
+
+
+_prefix=/usr
+_bindir=${_prefix}/bin
+_libdir=/usr/lib${_is64}
+_ppddir=/usr
+_cupsbindir=${_libdir}/cups
+
+CNBP_LIBS="libcnbpcmcm libcnbpcnclapi libcnbpcnclbjcmd libcnbpcnclui libcnbpess libcnbpo"
+COM_LIBS="libcnnet"
+PRINT_PKG_PROGRAM="ppd cnijfilter printui lgmon cngpijmon"
+
+PKG=${MODEL}series
+PKGNAME=cnijfilter-$PKG
+
+cd $TMP
+tar xvf $CWD/$TAR
+cd $DIR
+sed -i "s,/usr/lib/cups,${_libdir}/cups," backend/src/Makefile.am backendnet/backend/Makefile.am scripts/install.sh
+
+
+# CONFIGURE
+echo "==== lgmon ==="
+  cd $TMP/$DIR/lgmon
+  ./autogen.sh \
+    --prefix=${_prefix} \
+    --libdir=${_libdir} \
+    --program-suffix=${MODEL} \
+    --enable-progpath=${_bindir} 
+
+echo "==== libs ==="
+  cd $TMP/$DIR/libs
+  ./autogen.sh \
+    --libdir=${_libdir} \
+    --prefix=${_prefix}
+
+echo "==== cngpij ==="
+  cd $TMP/$DIR/cngpij
+  ./autogen.sh \
+    --libdir=${_libdir} \
+    --prefix=${_prefix} \
+    --enable-progpath=${_bindir}
+
+echo "==== pstocanonij ==="
+  cd $TMP/$DIR/pstocanonij
+  ./autogen.sh \
+    --prefix=${_prefix} \
+    --libdir=${_libdir} \
+    --enable-progpath=${_bindir}
+
+echo "==== backend ==="
+  cd $TMP/$DIR/backend
+  ./autogen.sh \
+    --libdir=${_libdir} \
+    --prefix=${_prefix}
+
+echo "==== backendnet ==="
+  cd $TMP/$DIR/backendnet
+  LDFLAGS="-L../../com/libs_bin${_arc}" \
+  ./autogen.sh \
+    --libdir=${_libdir} \
+    --prefix=${_prefix} \
+    --enable-progpath=${_bindir}
+
+echo "==== cngpijmon/cnijnpr ==="
+  cd $TMP/$DIR/cngpijmon/cnijnpr
+  LDFLAGS="-ldl" \
+  ./autogen.sh \
+    --libdir=${_libdir} \
+    --prefix=${_prefix}
+
+
+
+echo "==== ppd ==="
+  cd $TMP/$DIR/ppd
+  ./autogen.sh \
+    --prefix=${_prefix} \
+    --libdir=${_libdir} \
+    --program-suffix=${MODEL}
+
+echo "==== cnijfilter ==="
+  cd $TMP/$DIR/cnijfilter
+  ./autogen.sh \
+    --prefix=${_prefix} \
+    --program-suffix=${MODEL} \
+    --libdir=${_libdir} \
+    --enable-libpath=${_libdir}/bjlib \
+    --enable-binpath=${_bindir} 
+
+echo "==== printui ==="
+  cd $TMP/$DIR/printui
+  ./autogen.sh \
+    --libdir=${_libdir} \
+    --prefix=${_prefix} \
+    --program-suffix=${MODEL} \
+    --datadir=${_prefix}/share \
+    --enable-libpath=${_libdir}/bjlib 
+
+echo "==== cngpijmon ==="
+  cd $TMP/$DIR/cngpijmon
+  ./autogen.sh \
+    --libdir=${_libdir} \
+    --prefix=${_prefix} \
+    --program-suffix=${MODEL} \
+    --enable-progpath=${_bindir} \
+    --datadir=${_prefix}/share
+
+
+
+
+
+
+echo "==== MAKE ==="
+cd $TMP/$DIR
+make dirs="printui" || # first time printui fails
+make dirs="lgmon ppd cnijfilter printui cngpijmon libs cngpij pstocanonij backend backendnet cngpijmon/cnijnpr"
+
+echo "==== INSTALL ==="
+cd $TMP/$DIR
+make dirs="lgmon ppd cnijfilter printui cngpijmon libs cngpij pstocanonij backend backendnet cngpijmon/cnijnpr" install DESTDIR=${PKGDIR}
+
+mkdir -p ${PKGDIR}${_libdir}/bjlib
+install -c -m 644 ${MODEL_NUM}/database/*               ${PKGDIR}${_libdir}/bjlib
+install -c -s -m 755 ${MODEL_NUM}/libs_bin${_arc}/*.so.*        ${PKGDIR}${_libdir}
+
+mkdir -p ${PKGDIR}${_bindir}
+mkdir -p ${PKGDIR}${_cupsbindir}/filter
+mkdir -p ${PKGDIR}${_cupsbindir}/backend
+mkdir -p ${PKGDIR}${_prefix}/share/cups/model
+
+install -c -m 644 com/ini/cnnet.ini             ${PKGDIR}${_libdir}/bjlib
+
+install -c -s -m 755 com/libs_bin${_arc}/*.so.*         ${PKGDIR}${_libdir}
+
+
+mkdir $PKGDIR/install
+
+mkdir -p $PKGDIR/usr/doc/$PKGNAME-${VERSION}_$RELEASE
+cd $CWD
+cat $PKGNAME.SlackBuild > $PKGDIR/usr/doc/$PKGNAME-${VERSION}_$RELEASE/$PKGNAME.SlackBuild
+cat slack-desc > $PKGDIR/install/slack-desc
+cd $PKGDIR
+
+if [ -x "$(which requiredbuilder 2>/dev/null)" ];then
+  requiredbuilder -y -c -b -v -s $CWD $PKGDIR   # add "-c -b" if you have binary files in /usr/share 
+fi
+
+
+makepkg -l y -c y  $CWD/$PKGNAME-${VERSION}_$RELEASE-$ARCH-$BUILD.txz

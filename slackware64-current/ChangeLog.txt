@@ -1,3 +1,11 @@
+Sat Apr 21 18:23:05 CEST 2012
+-----------------------------
+	new file:   cnijfilter-mp495series/cnijfilter-mp495series.SlackBuild
+	new file:   exif/exif.SlackBuild
+	new file:   libproxy/libproxy.SlackBuild
+	modified:   spkg/spkg.SlackBuild
+	modified:   unrar/unrar.SlackBuild
+
 Thu Apr 19 16:32:18 CEST 2012
 -----------------------------
 	new file:   gst-python/gst-python.SlackBuild

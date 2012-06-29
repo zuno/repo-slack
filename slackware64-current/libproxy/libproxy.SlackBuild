@@ -2,11 +2,11 @@
 
 # Heavily based on the Slackware 13.37 SlackBuild (v1)
 
-# Written by Halim Issa (yallaone @ gmail.com)
-# Last build from Matteo Rossini ( zerouno @ slacky.it )
+# Written by Andrea Sciucca ( gohanz at infinito.it)
+# Last modified from miklos ( ardutu at gmail dot com )
 
-# Slackware build script for unrar
-# Official Site: http://www.rarlab.com
+# Slackware build script for libproxy
+# Official Site: http://code.google.com/p/libproxy
 
 # Redistribution and use of this script, with or without modification, is
 # permitted provided that the following conditions are met:
@@ -29,14 +29,16 @@ set -e
 
 
 # Basic information. 
-PKGNAME=unrar
-VERSION=${VERSION:-4.1.1}
-BUILD=${BUILD:-2}
-TAG=${TAG:-mt}
+PKGNAME=libproxy
+VERSION=${VERSION:-0.4.7}
+BUILD=${BUILD:-1}
+TAG=${TAG:-sl}
 ARCH=${ARCH:-x86_64}
-SOURCE="http://www.rarlab.com/rar/${PKGNAME}src-$VERSION.tar.gz"
+SOURCE="http://libproxy.googlecode.com/files/$PKGNAME-$VERSION.tar.gz"
 TAR=      # empty = auto
-DIR=$PKGNAME      # empty = auto
+DIR=      # empty = auto
+REQUIRED_ADD=
+REQUIRED_EXCLUDE="gcc, gcc-g++"
 
 # If EULA
 if [ -e EULA.TXT ];then
@@ -84,23 +86,35 @@ cd $TMP
 tar xvf $CWD/$TAR
 cd $DIR
 
+patch -p0 < $CWD/gcc-4.7-unistd.patch
+
 chown -R root:root .
 chmod -R u+w,go+r-w,a-s .
 
 # Customize as you need
-make CXXFLAGS="$SLKCFLAGS" -f makefile.unix unrar lib
+( mkdir -p build \
+  && cd build \
+     &&  cmake .. \
+    -DCMAKE_C_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_CXX_FLAGS:STRING="$SLKCFLAGS" \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DWITH_MOZJS=no \
+    -DSYSCONF_INSTALL_DIR=/etc \
+    -DMAN_INSTALL_DIR=/usr/man \
+    -DINCLUDE_INSTALL_DIR=/usr/include \
+    -DLIB_SUFFIX:STRING=${LIBDIRSUFFIX} \
+    -DLIB_INSTALL_DIR=/usr/lib${LIBDIRSUFFIX} \
+    -DMODULE_INSTALL_DIR=/usr/lib${LIBDIRSUFFIX}/libproxy/${VERSION}/modules \
+    -DPERL_VENDORINSTALL=yes
+make  \
+&& make install DESTDIR=$PKG )
 
-install -D -m 755 unrar $PKG/usr/bin/unrar
-install -D -m 755 libunrar.so $PKG/usr/lib${LIBDIRSUFFIX}/libunrar.so
-
-
-mkdir -p $PKG/usr/man/man1
-cat $CWD/unrar.1 > $PKG/usr/man/man1/unrar.1
 
 # Documentations
 mkdir -p $PKG/usr/doc/$PKGNAME-$VERSION
 cp -r \
-  license.txt readme.txt \
+  [A-Z]* \
   $PKG/usr/doc/$PKGNAME-$VERSION
 
 cat $CWD/$PKGNAME.SlackBuild > $PKG/usr/doc/$PKGNAME-$VERSION/$PKGNAME.SlackBuild
@@ -127,7 +141,7 @@ cd $PKG
 chown -R root:root $PKG
 
 if [ -x "$(which requiredbuilder 2>/dev/null)" ];then
-  requiredbuilder -y -v -s $CWD $PKG   # add "-c -b" if you have binary files in /usr/share 
+  EXCLUDE="$REQUIRED_EXCLUDE, $EXCLUDE" ADD=$REQUIRED_ADD requiredbuilder -y -v -s $CWD $PKG   # add "-c -b" if you have binary files in /usr/share 
 fi
 
 /sbin/makepkg -l y -c n $OUTPUT/$PKGNAME-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-txz}

@@ -1,3 +1,3 @@
 gcc >= 4.7.0-x86_64-1
 gcc-g++ >= 4.7.0-x86_64-1
-glibc-solibs >= 2.15-x86_64-2 | skype_static >= 2.2.0.35-x86_64-4mt_current
+glibc-solibs >= 2.15-x86_64-2

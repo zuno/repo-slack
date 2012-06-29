@@ -2,11 +2,11 @@
 
 # Heavily based on the Slackware 13.37 SlackBuild (v1)
 
-# Written by Halim Issa (yallaone @ gmail.com)
-# Last build from Matteo Rossini ( zerouno @ slacky.it )
+# Written by Andrea Sciucca ( gohanz AT infinito.it )
+# Last build from Savino Pio Liguori ( jimmy_page_89 AT hotmail DOT it )
 
-# Slackware build script for unrar
-# Official Site: http://www.rarlab.com
+# Slackware build script for exif
+# Official Site: http://libexif.sourceforge.net/
 
 # Redistribution and use of this script, with or without modification, is
 # permitted provided that the following conditions are met:
@@ -27,16 +27,15 @@
 
 set -e
 
-
-# Basic information. 
-PKGNAME=unrar
-VERSION=${VERSION:-4.1.1}
-BUILD=${BUILD:-2}
+PKGNAME=exif
+VERSION=${VERSION:-0.6.20}
+BUILD=${BUILD:-1}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
-SOURCE="http://www.rarlab.com/rar/${PKGNAME}src-$VERSION.tar.gz"
-TAR=      # empty = auto
-DIR=$PKGNAME      # empty = auto
+
+SOURCE="http://downloads.sourceforge.net/libexif/$PKGNAME-$VERSION.tar.bz2"
+TAR=
+DIR=
 
 # If EULA
 if [ -e EULA.TXT ];then
@@ -57,8 +56,8 @@ OUTPUT=${OUTPUT:-$CWD}
 TAR=${TAR:-$(basename $SOURCE)}
 DIR=${DIR:-$(echo "$TAR"|sed -r 's/(\.tar|)(.gz|.bz2|)$//')}
 
-if [ ! -e "$CWD/$TAR" ];then
-  wget "$SOURCE" -O "$CWD/$TAR"
+if [ ! -e $CWD/$TAR ];then
+  wget $SOURCE
 fi
 
 CHOST="i486"
@@ -77,30 +76,35 @@ elif [ "$ARCH" = "x86_64" ]; then
   CHOST="x86_64"
 fi
 
-### Preparing Source
 rm -rf $TMP
 mkdir -p $TMP $PKG $OUTPUT
 cd $TMP
 tar xvf $CWD/$TAR
 cd $DIR
 
+
+
 chown -R root:root .
 chmod -R u+w,go+r-w,a-s .
 
-# Customize as you need
-make CXXFLAGS="$SLKCFLAGS" -f makefile.unix unrar lib
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+./configure \
+  --prefix=/usr \
+  --libdir=/usr/lib$LIBDIRSUFFIX \
+  --sysconfdir=/etc \
+  --localstatedir=/var \
+  --mandir=/usr/man \
+  --disable-static \
+  --build=$CHOST-slackware-linux
+make
+make install DESTDIR=$PKG
 
-install -D -m 755 unrar $PKG/usr/bin/unrar
-install -D -m 755 libunrar.so $PKG/usr/lib${LIBDIRSUFFIX}/libunrar.so
 
 
-mkdir -p $PKG/usr/man/man1
-cat $CWD/unrar.1 > $PKG/usr/man/man1/unrar.1
-
-# Documentations
 mkdir -p $PKG/usr/doc/$PKGNAME-$VERSION
 cp -r \
-  license.txt readme.txt \
+  ABOUT-NLS AUTHORS  COPYING  ChangeLog* INSTALL NEWS README \
   $PKG/usr/doc/$PKGNAME-$VERSION
 
 cat $CWD/$PKGNAME.SlackBuild > $PKG/usr/doc/$PKGNAME-$VERSION/$PKGNAME.SlackBuild
@@ -127,7 +131,7 @@ cd $PKG
 chown -R root:root $PKG
 
 if [ -x "$(which requiredbuilder 2>/dev/null)" ];then
-  requiredbuilder -y -v -s $CWD $PKG   # add "-c -b" if you have binary files in /usr/share 
+  requiredbuilder -y -v  -s $CWD $PKG
 fi
 
 /sbin/makepkg -l y -c n $OUTPUT/$PKGNAME-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-txz}
