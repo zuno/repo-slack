@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|' on
+# the right side marks the last column you can put a character in.  You must make
+# exactly 11 lines for the formatting to be correct.  It's also customary to
+# leave one space after the ':'.
+
+       |-----handy-ruler------------------------------------------------------|
+ssldump: SSLDUMP 0.9b3
+ssldump: 
+ssldump: ssldump is an SSLv3/TLS network protocol analyzer. It identifies TCP
+ssldump: connections on the chosen network interface and attempts to interpret
+ssldump: them as SSLv3/TLS traffic. When it identifies SSLv3/TLS traffic, it
+ssldump: decodes the records and displays them in a textual form to stdout. If
+ssldump: provided with the appropriate keying material, it will also decrypt
+ssldump: the connections and display the application data traffic.
+ssldump: 
+ssldump: 
+ssldump: 

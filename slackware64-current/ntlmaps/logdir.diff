@@ -1,0 +1,33 @@
+Do not remove ^M at end-of-line in patch
+--- ntlmaps/config_affairs.py-orig	2008-10-22 07:28:39.000000000 +0200
++++ ntlmaps/config_affairs.py	2011-05-02 23:02:55.388000005 +0200
+@@ -71,7 +71,9 @@
+     conf['GENERAL']['FRIENDLY_IPS'] = saneList
+             
+     conf['GENERAL']['URL_LOG'] = makeInt(conf['GENERAL']['URL_LOG'], 'URL_LOG')
+-    url_logger = logger.Logger('url.log', conf['GENERAL']['URL_LOG'])
++    if not conf['GENERAL']['LOG_DIR'] :
++	    conf['GENERAL']['LOG_DIR'] = './'
++    url_logger = logger.Logger(conf['GENERAL']['LOG_DIR']+'/url.log', conf['GENERAL']['URL_LOG'])
+     url_logger_lock = thread.allocate_lock()
+     conf['GENERAL']['URL_LOGGER'] = url_logger
+     conf['GENERAL']['URL_LOG_LOCK'] = url_logger_lock
+--- ntlmaps/proxy_client.py-orig	2008-10-22 07:50:09.000000000 +0200
++++ ntlmaps/proxy_client.py	2011-05-02 23:02:55.398000007 +0200
+@@ -43,10 +43,12 @@
+         self.tunnel_mode = 0
+ 
+         # define log files
+-        self.logger_bin_client = logger.Logger('%s-%d.bin.client' % address, self.config['DEBUG']['BIN_DEBUG'])
+-        self.logger_bin_rserver = logger.Logger('%s-%d.bin.rserver' % address, self.config['DEBUG']['BIN_DEBUG'])
+-        self.logger_auth = logger.Logger('%s-%d.auth' % address, self.config['DEBUG']['AUTH_DEBUG'])
+-        self.logger = logger.Logger('%s-%d' % address, self.config['DEBUG']['DEBUG'])
++	if not self.config['DEBUG']['DEBUG_DIR'] :
++		self.config['DEBUG']['DEBUG_DIR'] = '.'
++        self.logger_bin_client = logger.Logger(self.config['DEBUG']['DEBUG_DIR']+'/%s-%d.bin.client' % address, self.config['DEBUG']['BIN_DEBUG'])
++        self.logger_bin_rserver = logger.Logger(self.config['DEBUG']['DEBUG_DIR']+'/%s-%d.bin.rserver' % address, self.config['DEBUG']['BIN_DEBUG'])
++        self.logger_auth = logger.Logger(self.config['DEBUG']['DEBUG_DIR']+'/%s-%d.auth' % address, self.config['DEBUG']['AUTH_DEBUG'])
++        self.logger = logger.Logger(self.config['DEBUG']['DEBUG_DIR']+'/%s-%d' % address, self.config['DEBUG']['DEBUG'])
+ 
+         # set it to 1 till we will connect actually???
+         # No!!! In that case we have unexpected exit if the client sends its header slow.

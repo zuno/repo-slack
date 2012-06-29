@@ -2,11 +2,11 @@
 
 # Heavily based on the Slackware 13.37 SlackBuild (v1)
 
-# Written by Michelino Chionchio
-# Last build from Matteo Rossini ( zerouno at slacky.it )
+# Written by alphamanitine ( fabio.testa at tin.it )
+# Last build from Matteo Rossini ( zerouno @ slacky.it )
 
-# Slackware build script for slackyd
-# Official Site: http://www.slacky.eu/~dani/slackyd/
+# Slackware build script for gst-python
+# Official Site: http://www.gstreamer.net/
 
 # Redistribution and use of this script, with or without modification, is
 # permitted provided that the following conditions are met:
@@ -30,12 +30,12 @@ set -e
 
 
 # Basic information. 
-PKGNAME=slackyd
-VERSION=${VERSION:-1.0}
-BUILD=${BUILD:-2}
+PKGNAME=gst-python
+VERSION=${VERSION:-0.10.22}
+BUILD=${BUILD:-1}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
-SOURCE="https://github.com/slackyeu/slackyd"
+SOURCE="http://www.gstreamer.net/src/gst-python/$PKGNAME-$VERSION.tar.bz2"
 TAR=      # empty = auto
 DIR=      # empty = auto
 
@@ -58,6 +58,9 @@ OUTPUT=${OUTPUT:-$CWD}
 TAR=${TAR:-$(basename $SOURCE)}
 DIR=${DIR:-$(echo "$TAR"|sed -r 's/(\.tar|)(.gz|.bz2|)$//')}
 
+if [ ! -e "$CWD/$TAR" ];then
+  wget "$SOURCE" -O "$CWD/$TAR"
+fi
 
 CHOST="i486"
 if [ "$ARCH" = "i486" ]; then
@@ -79,27 +82,28 @@ fi
 rm -rf $TMP
 mkdir -p $TMP $PKG $OUTPUT
 cd $TMP
-git clone $SOURCE
+tar xvf $CWD/$TAR
 cd $DIR
-VERSION=$VERSION.$(date -d "$(git log|head -3|grep ^Date|cut -f2- -d:|sed 's/+/GMT+/')" +%Y%m%d)
 
-if [ $ARCH == "x86_64" ];then
-  sed -i 's/\(slackware64 =\) no/\1 yes/' slackyd.conf
-fi
-sed -i -r "/repository[ =]*..tp:/s/-13.37/$LIBDIRSUFFIX-current/g" slackyd.conf
-sed -i -r "/repository slacky/s/-13.37/$LIBDIRSUFFIX-13.37/g" slackyd.conf
-
+# patch -p1 < $CWD/some_patch.diff
+# zcat $CWD/compressed_patch.diff.gz |patch -p1
 
 chown -R root:root .
 chmod -R u+w,go+r-w,a-s .
 
-make \
-  "CFLAGS=$SLKCFLAGS -lcrypto"
+# Customize as you need
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+./configure \
+  --prefix=/usr \
+  --libdir=/usr/lib$LIBDIRSUFFIX \
+  --sysconfdir=/etc \
+  --docdir=/usr/doc/$PKGNAME-$VERSION \
+  --localstatedir=/var \
+  --mandir=/usr/man \
+  --build=$CHOST-slackware-linux
+make
 make install DESTDIR=$PKG
-
-## Do special operations
-
-mv $PKG/etc/slackyd/slackyd.conf $PKG/etc/slackyd/slackyd.conf.new
 
 # Documentations
 mkdir -p $PKG/usr/doc/$PKGNAME-$VERSION

@@ -1,3 +1,17 @@
+Thu Apr 19 16:32:18 CEST 2012
+-----------------------------
+	new file:   gst-python/gst-python.SlackBuild
+	new file:   jhead/jhead.SlackBuild
+	new file:   judy/judy.SlackBuild
+	new file:   libgnome-keyring/libgnome-keyring.SlackBuild
+	new file:   libtasn1/libtasn1.SlackBuild
+	new file:   ntlmaps/ntlmaps.SlackBuild
+	new file:   p7zip/p7zip.SlackBuild
+	modified:   slackyd/slackyd.SlackBuild
+	new file:   slapt-get/slapt-get.SlackBuild
+	new file:   spkg/spkg.SlackBuild
+	new file:   ssldump/ssldump.SlackBuild
+
 Thu Apr 19 00:08:44 CEST 2012
 -----------------------------
 	new file:   bar/bar.SlackBuild

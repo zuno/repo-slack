@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|' on
+# the right side marks the last column you can put a character in.  You must make
+# exactly 11 lines for the formatting to be correct.  It's also customary to
+# leave one space after the ':'.
+
+       |-----handy-ruler------------------------------------------------------|
+ntlmaps: ntlmaps (NTLM Authorization Proxy Server)
+ntlmaps:
+ntlmaps: NTLM Authorization Proxy Server is a proxy software that allows you
+ntlmaps: to authenticate via a Microsoft Proxy Server using the proprietary 
+ntlmaps: NTLM protocol. Since version 0.9.5 APS has an ability to behave as a
+ntlmaps: standalone proxy server and authenticate http clients at web servers
+ntlmaps: using NTLM method.
+ntlmaps: 
+ntlmaps:
+ntlmaps:
+ntlmaps:

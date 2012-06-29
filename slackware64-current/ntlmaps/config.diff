@@ -1,0 +1,26 @@
+Do not remove ^M at end-of-line in patch
+--- server.cfg-orig	2008-10-22 07:50:00.000000000 +0200
++++ server.cfg	2011-05-02 22:58:04.334000010 +0200
+@@ -48,7 +48,7 @@
+ 
+ # Requested URLs are written to "url.log" file. May be useful.
+ URL_LOG:0
+-
++LOG_DIR:/var/log/ntlmaps
+ # When a network service listens for connections, there is a maximum number of connection
+ # attempts to that service that the underlying OS will allow to backlog waiting for a response
+ # before the OS will start dropping new connection attempts with 'Connection refused'.  The
+@@ -116,7 +116,7 @@
+ # hash it out, and you *won't* be prompted for a password at start time.
+ PASSWORD:your_nt_password
+ 
+-# Alternatively, fill in these hashes. You can use the hashes.py program supplied to
++# Alternatively, fill in these hashes. You can use the ntlmaps-hashes program supplied to
+ # generate the hashes.
+ # An example of the sort of thing to expect, for the password 'MyPassword' would be
+ # dKyZykDe1CDcGnPmzqZ+xQAAAAAA
+@@ -187,3 +187,4 @@
+ # into *.auth logs. Also see research.txt.
+ AUTH_DEBUG:0
+ 
++DEBUG_DIR:/var/log/ntlmaps/debug

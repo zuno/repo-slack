@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+         |-----handy-ruler----------------------------------------------------|
+slapt-get: Slapt-Get (Slackware APT Like System)
+slapt-get:
+slapt-get: Slapt-Get is  an APT like system for Slackware  package  management
+slapt-get: It allows  one to search Slackware mirrors  and third party sources
+slapt-get: for packages, compare  them  with  installed  packages, install new
+slapt-get: packages, or upgrade all installed packages. slapt-get is great for
+slapt-get: scripting as well.
+slapt-get:
+slapt-get:
+slapt-get:
+slapt-get:
