@@ -1,5 +1,5 @@
 PRGNAM="centerim"
-VERSION="5a2.20120417"
+VERSION="5a2.20120618"
 HOMEPAGE="http://www.centerim.org/"
 DOWNLOAD="git+ssh://mob@repo.or.cz/srv/git/centerim5.git"
 MD5SUM=""

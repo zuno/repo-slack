@@ -1,7 +1,7 @@
 PRGNAM="gupnp-igd"
 VERSION="0.2.1"
 HOMEPAGE="http://www.gupnp.org"
-DOWNLOAD="http://www.gupnp.org/sites/all/files/sources/gupnp-igd-0.2.1.tar.gz"
+DOWNLOAD="http://repository.timesys.com/buildsources/g/gupnp-igd/gupnp-igd-0.2.1/gupnp-igd-0.2.1.tar.gz"
 MD5SUM="03be8a80e2862cf72b2c50d65043828c"
 DOWNLOAD_x86_64=""
 MD5SUM_x86_64=""
