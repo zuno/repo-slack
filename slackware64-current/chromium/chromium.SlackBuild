@@ -32,12 +32,12 @@ set -e
 
 
 PKGNAME=chromium
-VERSION=${VERSION:-SNAPSHOT} # Set to SNAPSHOT to install the latest release.
-#VERSION=${VERSION:-20.0.1122.0} # or set your prefered realese
+#VERSION=${VERSION:-SNAPSHOT} # Set to SNAPSHOT to install the latest release.
+VERSION=${VERSION:-21.0.1180.13} # or set your prefered realese
 BUILD=${BUILD:-1}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
-SOURCE="http://gsdview.appspot.com/chromium-browser-official"
+SOURCE="http://commondatastorage.googleapis.com/chromium-browser-official"
 if [ "$VERSION" == "SNAPSHOT" ];then
   VERSION=`wget $SOURCE/ -O -|egrep -o 'chromium-[0-9\.]+\.tar.bz2'|tail -1|sed -r 's/chromium-([0-9\.]+)\.tar.bz2/\1/'`
 fi
@@ -185,7 +185,7 @@ install -m 0644 -D out/Release/chrome.1 \
 
 # Installing desktop menu file
 install -m 0644 -D $CWD/$PKGNAME.desktop \
-    $PKG/usr/share/applications/$PKGNAME.desktop
+    $PKG/usr/share/applications/chromium.desktop
 
 
 # Installing icons directory

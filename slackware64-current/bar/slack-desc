@@ -5,12 +5,12 @@
 # exactly 11 lines for the formatting to be correct.  It's also customary to
 # leave one space after the ':'.
 
-   |-----handy-ruler---------------------------------------------------------|
+   |-----handy-ruler------------------------------------------------------|
 bar: bar (Command Line Progress Bar)
 bar:
-bar: Bar is a simple tool to copy a stream of data and print many statistics 
-bar: information as tranfer rate, time, estimated time remaining, percentage,
-bar: and a progress bar.
+bar: Bar is a simple tool to copy a stream of data and print many
+bar: statistics information as tranfer rate, time, estimated time
+bar: remaining, percentage, and a progress bar.
 bar: 
 bar: It also can use ANSI colors (if supported from terminal)
 bar: 

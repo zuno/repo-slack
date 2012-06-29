@@ -35,8 +35,8 @@ PKG=$TMP/package
 VERSION=${VERSION:-0.10.2m}
 ARCH=${ARCH:-x86_64}
 JOBS=${JOBS:--j2}
-BUILD=${BUILD:-1}
-TAG=${TAG:-sl}
+BUILD=${BUILD:-2}
+TAG=${TAG:-mt}
 
 
 SOURCE="http://software.jaos.org/source/slapt-get/$PKGNAME-$VERSION.tar.gz"

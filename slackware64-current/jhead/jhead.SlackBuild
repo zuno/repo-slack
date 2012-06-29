@@ -30,7 +30,7 @@ set -e
 
 # Basic information. 
 PKGNAME=jhead
-VERSION=${VERSION:-2.95}
+VERSION=${VERSION:-2.96}
 BUILD=${BUILD:-1}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}

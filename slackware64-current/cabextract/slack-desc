@@ -5,15 +5,15 @@
 # exactly 11 lines for the formatting to be correct.  It's also customary to
 # leave one space after the ':'.
 
-          |-----handy-ruler--------------------------------------------------------|
+          |-----handy-ruler------------------------------------------------------|
 cabextract: cabextract
 cabextract:
 cabextract: cabextract is Free Software for extracting Microsoft cabinet files,
 cabextract: also called .CAB files, on UNIX or UNIX-like systems. cabextract is
 cabextract: distributed under the GPL license. It is based on the portable LGPL
 cabextract: libmspack library.
-cabextract: cabextract supports all special features and all compression formats of
-cabextract: Microsoft cabinet files.
+cabextract: cabextract supports all special features and all compression formats 
+cabextract: of Microsoft cabinet files.
 cabextract:
 cabextract:
 cabextract:

@@ -30,7 +30,7 @@ set -e
 
 # Basic information. 
 PKGNAME=libevent
-VERSION=${VERSION:-2.0.18}
+VERSION=${VERSION:-2.0.19}
 BUILD=${BUILD:-1}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}

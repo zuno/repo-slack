@@ -1,3 +1,52 @@
+Fri Jun 22 22:04:05 CEST 2012
+-----------------------------
+	modified:   GeoIP/GeoIP.SlackBuild
+	modified:   aMule/aMule.SlackBuild
+	modified:   amsn/amsn.SlackBuild
+	modified:   bar/bar.SlackBuild
+	modified:   cabextract/cabextract.SlackBuild
+	modified:   chromium/chromium.SlackBuild
+	modified:   cnijfilter-mp495series/cnijfilter-mp495series.SlackBuild
+	modified:   compat32-libraries/compat32-libraries.SlackBuild
+	modified:   corkscrew/corkscrew.SlackBuild
+	modified:   cryptopp/cryptopp.SlackBuild
+	modified:   exif/exif.SlackBuild
+	modified:   farsight2/farsight2.SlackBuild
+	new file:   flash-player-plugin/flash-player-plugin.SlackBuild
+	modified:   glib-networking/glib-networking.SlackBuild
+	modified:   gpart/gpart.SlackBuild
+	modified:   gssdp/gssdp.SlackBuild
+	modified:   gst-python/gst-python.SlackBuild
+	modified:   gupnp-igd/gupnp-igd.SlackBuild
+	modified:   gupnp/gupnp.SlackBuild
+	modified:   jhead/jhead.SlackBuild
+	modified:   judy/judy.SlackBuild
+	modified:   libevent/libevent.SlackBuild
+	modified:   libgnome-keyring/libgnome-keyring.SlackBuild
+	modified:   libmspack/libmspack.SlackBuild
+	modified:   libnice/libnice.SlackBuild
+	modified:   libproxy/libproxy.SlackBuild
+	modified:   libsigc++/libsigc++.SlackBuild
+	modified:   libsoup/libsoup.SlackBuild
+	modified:   libtasn1/libtasn1.SlackBuild
+	modified:   libupnp/libupnp.SlackBuild
+	modified:   moos-project-viewer/moos-project-viewer.SlackBuild
+	modified:   ntlmaps/ntlmaps.SlackBuild
+	modified:   nvidia-linux/nvidia-linux.SlackBuild
+	modified:   p7zip/p7zip.SlackBuild
+	modified:   portecle/portecle.SlackBuild
+	modified:   rarlinux/rarlinux.SlackBuild
+	modified:   skype_static/skype_static.SlackBuild
+	modified:   slackyd/slackyd.SlackBuild
+	modified:   slapt-get/slapt-get.SlackBuild
+	modified:   spkg/spkg.SlackBuild
+	modified:   ssldump/ssldump.SlackBuild
+	modified:   tls/tls.SlackBuild
+	modified:   unrar/unrar.SlackBuild
+	modified:   wxWidgets/wxWidgets.SlackBuild
+	deleted:    flash-player/flash-player.SlackBuild
+	deleted:    wxGTK/wxGTK.SlackBuild
+
 Fri Jun 15 15:47:40 CEST 2012
 -----------------------------
 	modified:   skype_static/skype_static.SlackBuild

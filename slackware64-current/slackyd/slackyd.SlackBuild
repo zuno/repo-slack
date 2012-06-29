@@ -32,7 +32,7 @@ set -e
 # Basic information. 
 PKGNAME=slackyd
 VERSION=${VERSION:-1.0}
-BUILD=${BUILD:-2}
+BUILD=${BUILD:-3}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
 SOURCE="https://github.com/slackyeu/slackyd"
@@ -129,6 +129,7 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
 
 cd $PKG
 chown -R root:root $PKG
+chmod -R go-w $PKG
 
 if [ -x "$(which requiredbuilder 2>/dev/null)" ];then
   requiredbuilder -y -v -s $CWD $PKG   # add "-c -b" if you have binary files in /usr/share 

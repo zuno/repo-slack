@@ -5,13 +5,13 @@
 # exactly 11 lines for the formatting to be correct.  It's also customary to
 # leave one space after the ':'.
 
-            |----handy-ruler---------------------------------------------------------|
+            |-----handy-ruler------------------------------------------------------|
 skype_static: Skype (Free Internet telephony)
 skype_static:
-skype_static: Skype is a peer-to-peer Internet telephony network. It competes against
-skype_static: existing open VoIP protocols such as SIP, IAX, and H.323.
+skype_static: Skype is a peer-to-peer Internet telephony network. It competes
+skype_static: against existing open VoIP protocols such as SIP, IAX, and H.323.
 skype_static:
-skype_static: This version include some Slackware VERSION 32bit libraries
+skype_static: This version include some 32bit libraries
 skype_static:
 skype_static:
 skype_static:

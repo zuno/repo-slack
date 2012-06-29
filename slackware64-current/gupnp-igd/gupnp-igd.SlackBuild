@@ -31,12 +31,13 @@ set -e
 # Basic information. 
 PKGNAME=gupnp-igd
 VERSION=${VERSION:-0.2.1}
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
-SOURCE="http://www.gupnp.org/sites/all/files/sources/$PKGNAME-$VERSION.tar.gz"
-TAR=      # empty = auto
-DIR=      # empty = auto
+#SOURCE="http://www.gupnp.org/sites/all/files/sources/$PKGNAME-$VERSION.tar.gz"
+SOURCE="http://repository.timesys.com/buildsources/g/$PKGNAME/$PKGNAME-$VERSION/$PKGNAME-$VERSION.tar.gz"
+TAR=                       # empty = auto
+DIR=                       # empty = auto
 
 # If EULA
 if [ -e EULA.TXT ];then

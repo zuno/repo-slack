@@ -31,7 +31,7 @@ set -e
 
 # Basic information. 
 PKGNAME=libtasn1
-VERSION=${VERSION:-2.12}
+VERSION=${VERSION:-2.13}
 BUILD=${BUILD:-1}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}

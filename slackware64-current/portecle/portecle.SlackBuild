@@ -5,7 +5,7 @@
 # Written by Matteo Rossini ( zerouno @ slacky.it )
 # Last build from Matteo Rossini ( zerouno @ slacky.it )
 
-# Slackware build script for 'bar' (Command Line Progress Bar)
+# Slackware build script for 'portecle' 
 # Official Site: http://portecle.sourceforge.net/
 
 # Redistribution and use of this script, with or without modification, is
@@ -32,7 +32,7 @@ set -e
 # Basic information. 
 PKGNAME=portecle
 VERSION=${VERSION:-1.7}
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
 SOURCE=http://downloads.sourceforge.net/project/$PKGNAME/$PKGNAME/$VERSION/${PKGNAME}-$VERSION.zip
@@ -133,7 +133,7 @@ cd $PKG
 chown -R root:root $PKG
 
 if [ -x "$(which requiredbuilder 2>/dev/null)" ];then
-  requiredbuilder -y -v -s $CWD $PKG   # add "-c -b" if you have binary files in /usr/share 
+  requiredbuilder -y -v -c -b -s $CWD $PKG   # add "-c -b" if you have binary files in /usr/share 
 fi
 
 /sbin/makepkg -l y -c n $OUTPUT/$PKGNAME-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-txz}

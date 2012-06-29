@@ -9,11 +9,11 @@
 GeoIP: GeoIP (IP geolocation data  library)
 GeoIP:
 GeoIP: GeoIP  is   the  proprietary  technology  that  drives  MaxMind's  IP
-GeoIP: geolocation data  and  services. GeoIP  provides  businesses with a non
-GeoIP: invasive way  to  determine  geographical  and  other information about
-GeoIP: their Internet visitors in real-time. When a person visits your website
-GeoIP: GeoIP can determine which country, region, city, postal code, area code
-GeoIP: the visitor is coming from.
+GeoIP: geolocation data  and  services. GeoIP  provides  businesses with a
+GeoIP: non invasive way  to  determine  geographical  and  other information
+GeoIP: about their Internet visitors in real-time. When a person visits your
+GeoIP: website
 GeoIP:
-GeoIP:
+GeoIP: GeoIP can determine which country, region, city, postal code, and
+GeoIP: area code the visitor is coming from.
 GeoIP:

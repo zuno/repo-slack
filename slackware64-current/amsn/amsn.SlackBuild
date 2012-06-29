@@ -30,8 +30,8 @@ set -e
 
 # Basic information. 
 PKGNAME=amsn
-VERSION=${VERSION:-0.98.4}
-BUILD=${BUILD:-3}
+VERSION=${VERSION:-0.98.9}
+BUILD=${BUILD:-1}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
 SOURCE="http://downloads.sourceforge.net/project/$PKGNAME/$PKGNAME/$VERSION/$PKGNAME-$VERSION-src.tar.bz2"
@@ -101,7 +101,8 @@ CXXFLAGS="$SLKCFLAGS" \
   --localstatedir=/var \
   --mandir=/usr/man \
   --build=$CHOST-slackware-linux
-make
+unset MAKEFLAGS
+make $JOBS
 (
   cd plugins/amsnplus/
   make clean

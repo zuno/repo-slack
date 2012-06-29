@@ -28,7 +28,7 @@ set -e
 
 PKGNAME=GeoIP
 VERSION=${VERSION:-1.4.8}
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
 SOURCE="http://geolite.maxmind.com/download/geoip/api/c/$PKGNAME-$VERSION.tar.gz"

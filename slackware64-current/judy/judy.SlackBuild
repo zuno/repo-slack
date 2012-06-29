@@ -3,7 +3,7 @@
 # Heavily based on the Slackware 13.37 SlackBuild (v1)
 
 # Written by Andrea Sciucca ( gohanz AT infinito.it )
-# Last build from Savino Pio Liguori ( jimmy_page_89 AT hotmail DOT it )
+# Last build from Matteo Rossini ( zerouno AT slacky it )
 
 # Slackware build script for judy
 # Official Site: http://judy.sourceforge.net
@@ -29,7 +29,7 @@ set -e
 
 PKGNAME=judy
 VERSION=${VERSION:-1.0.5}
-BUILD=${BUILD:-3}
+BUILD=${BUILD:-4}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
 

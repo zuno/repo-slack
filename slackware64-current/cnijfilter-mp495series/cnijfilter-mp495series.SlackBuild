@@ -20,7 +20,7 @@ MODEL_NUM=369
 PKGNAME=cnijfilter-source
 VERSION=3.40
 RELEASE=1
-BUILD=2mt
+BUILD=3mt
 SOURCE="http://gdlp01.c-wss.com/gds/0/0100003020/01/cnijfilter-source-3.40-1.tar.gz"
 TAR=$PKGNAME-$VERSION-$RELEASE.tar.gz
 DIR=$PKGNAME-$VERSION-$RELEASE
@@ -66,7 +66,7 @@ cd $TMP
 tar xvf $CWD/$TAR
 cd $DIR
 sed -i "s,/usr/lib/cups,${_libdir}/cups," backend/src/Makefile.am backendnet/backend/Makefile.am scripts/install.sh
-
+patch -p1 < $CWD/ppd.diff
 
 # CONFIGURE
 echo "==== lgmon ==="

@@ -30,7 +30,7 @@ set -e
 SLACK=${SLACK:-current}  # if do you have slackware current: SLACK=current
 PKGNAME=skype_static
 VERSION=${VERSION:-4.0.0.7}
-BUILD=${BUILD:-2}
+BUILD=${BUILD:-3}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
 SOURCE=http://download.skype.com/linux/$PKGNAME-$VERSION.tar.bz2
@@ -154,7 +154,7 @@ cp -r \
   $PKG/usr/doc/$PKGNAME-$VERSION
 
 cat $CWD/$PKGNAME.SlackBuild > $PKG/usr/doc/$PKGNAME-$VERSION/$PKGNAME.SlackBuild
-cat $CWD/slack-desc |sed "s/VERSION/$SLACK/" > $PKG/usr/doc/$PKGNAME-$VERSION/slack-desc
+cat $CWD/slack-desc  > $PKG/usr/doc/$PKGNAME-$VERSION/slack-desc
 
 
 if [ -d $PKG/usr/man ]; then
@@ -165,7 +165,7 @@ if [ -d $PKG/usr/man ]; then
 fi
 
 mkdir -p $PKG/install
-cat $CWD/slack-desc |sed "s/VERSION/$SLACK/" > $PKG/install/slack-desc
+cat $CWD/slack-desc  > $PKG/install/slack-desc
 [ -e $CWD/doinst.sh ] && cat $CWD/doinst.sh > $PKG/install/doinst.sh
 
 cd $PKG

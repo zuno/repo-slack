@@ -1,0 +1,21 @@
+--- cnijfilter-source-3.40-1/cngpijmon/src/bjcupsmon_cups.c.orig      2012-06-29 16:34:24.411956073 +0200
++++ cnijfilter-source-3.40-1/cngpijmon/src/bjcupsmon_cups.c   2012-06-29 16:38:54.599944770 +0200
+@@ -20,6 +20,7 @@
+ /*** Includes ***/
+ #include <cups/cups.h>
+ #include <cups/language.h>
++#include <cups/ppd.h>
+ #include <sys/types.h>
+ #include <unistd.h>
+ #include <pwd.h>
+--- cnijfilter-source-3.40-1/backend/src/cnij_backend_common.c.orig   2012-06-29 16:33:29.459958369 +0200
++++ cnijfilter-source-3.40-1/backend/src/cnij_backend_common.c        2012-06-29 16:34:06.109956835 +0200
+@@ -38,6 +38,7 @@
+ // CUPS Header
+ #include <cups/cups.h>
+ #include <cups/ipp.h>
++#include <cups/ppd.h>
+ 
+ // Header file for CANON
+ #include "cnij_backend_common.h"
+

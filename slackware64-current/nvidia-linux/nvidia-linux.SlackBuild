@@ -30,7 +30,7 @@ set -e
 
 # Basic information. 
 PKGNAME=nvidia-linux
-VERSION=${VERSION:-295.53}
+VERSION=${VERSION:-295.59}
 BUILD=${BUILD:-1}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
@@ -175,6 +175,7 @@ sed -i "s,__LIBGL_PATH__,/usr/lib${LIBDIRSUFFIX}," $PKG/usr/lib${LIBDIRSUFFIX}/l
 sed -i "s,/usr/X11R6/lib,/usr/X11R6/lib${LIBDIRSUFFIX}," $PKG/usr/lib${LIBDIRSUFFIX}/libGL.la
 
 if [ "$COMPAT32" = "yes" -a "$ARCH" = "x86_64" ]; then
+  C32="_c32"
   mkdir -p $PKG/usr/lib/vdpau
   install -m 755 \
       32/libGL.so.$VERSION \
@@ -214,7 +215,6 @@ if [ "$COMPAT32" = "yes" -a "$ARCH" = "x86_64" ]; then
   install -D -m 644 32/libGL.la $PKG/usr/lib
   sed -i "s,__LIBGL_PATH__,/usr/lib," $PKG/usr/lib/libGL.la
 
-  echo "$PKGNAME:    This version does include 32bit compatibility libraries" >> $PKG/install/slack-desc
 fi
 
 # Documentation
@@ -237,12 +237,8 @@ if [ "$MODPREBUILD" == "yes" ];then
   make SYSSRC=$KERNELPATH module
   mkdir -p $PKG/lib/modules/`uname -r`/kernel/drivers/video
   cp nvidia.ko $PKG/lib/modules/`uname -r`/kernel/drivers/video/nvidia.ko
-  echo "$PKGNAME:    This version does include prebuilt module for kernel `uname -r`" >> $PKG/install/slack-desc
   echo "chroot . /sbin/depmod -a" >> $PKG/install/doinst.sh
   echo >> $PKG/install/doinst.sh
-else
-  echo "$PKGNAME:    After installation you must to install the kernel module" >> $PKG/install/slack-desc
-  echo "$PKGNAME:    with command /usr/share/$PKGNAME/makekernelmodule.sh" >> $PKG/install/slack-desc
 fi
 
 cat $PKG/install/slack-desc > $PKG/usr/doc/$PKGNAME-$VERSION/slack-desc
@@ -252,11 +248,11 @@ cat $CWD/NVIDIA.Slackware > $PKG/usr/doc/$PKGNAME-$VERSION/NVIDIA.Slackware
 cd $PKG
 chown -R root:root $PKG
 
-#if [ -x "$(which requiredbuilder 2>/dev/null)" ];then
-#  requiredbuilder -y -v -s $CWD $PKG   # add "-c -b" if you have binary files in /usr/share 
-#fi
+if [ -x "$(which requiredbuilder 2>/dev/null)" ];then
+  requiredbuilder -y -v -s $CWD $PKG   # add "-c -b" if you have binary files in /usr/share 
+fi
 
-/sbin/makepkg -l y -c n $OUTPUT/$PKGNAME-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-txz}
+/sbin/makepkg -l y -c n $OUTPUT/$PKGNAME-$VERSION$C32-$ARCH-$BUILD$TAG.${PKGTYPE:-txz}
 
 if [ "$1" = "--cleanup" ]; then
   rm -rf $TMP

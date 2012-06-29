@@ -5,11 +5,11 @@
 # make exactly 11 lines for the formatting to be correct.  It's also
 # customary to leave one space after the ':'.
 
-     |-----handy-ruler-------------------------------------------------------|
+     |-----handy-ruler------------------------------------------------------|
 gssdp: gSSDP (SSDP GObject Library)
 gssdp:
-gssdp: A GObject-based API for doing SSDP (Simple Service Discovery Protocol)
-gssdp: transparently.
+gssdp: A GObject-based API for doing SSDP (Simple Service Discovery
+gssdp: Protocol) transparently.
 gssdp:
 gssdp:
 gssdp:

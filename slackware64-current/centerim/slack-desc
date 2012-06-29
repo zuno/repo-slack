@@ -5,7 +5,7 @@
 # exactly 11 lines for the formatting to be correct.  It's also customary to
 # leave one space after the ':'.
 
-        |----handy-ruler-----------------------------------------------------|
+        |-----handy-ruler------------------------------------------------------|
 centerim: Centerim
 centerim:
 centerim: Centerim is a text mode menu- and window-driven IM interface that

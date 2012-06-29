@@ -32,7 +32,7 @@ set -e
 # Basic information. 
 PKGNAME=corkscrew
 VERSION=${VERSION:-2.0}
-BUILD=${BUILD:-5}
+BUILD=${BUILD:-6}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
 SOURCE=http://www.agroman.net/corkscrew/$PKGNAME-$VERSION.tar.gz

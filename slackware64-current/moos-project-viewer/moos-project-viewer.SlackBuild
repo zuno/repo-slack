@@ -30,11 +30,10 @@ set -e
 
 PKGNAME=moos-project-viewer
 VERSION=${VERSION:-2.8}
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
 SOURCE="http://www.free-project-viewer.com/downloads/MOOS-2.8-Light.zip"
-#SOURCE="http://www.free-project-viewer.com/downloads/MOOS-2.8.0-free.zip"
 
 CWD=$(pwd)
 TMP=${TMP:-/tmp/buildpkgs/$PKGNAME}

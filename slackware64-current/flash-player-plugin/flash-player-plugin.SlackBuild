@@ -5,7 +5,7 @@
 # Written by <your name> ( your [at] email.address )
 # Last build from Matteo Rossini ( zerouno @ slacky.it )
 
-# Slackware build script for <appname>
+# Slackware build script for flash-player-plugin
 # Official Site: http://get.adobe.com/it/flashplayer/
 
 # Redistribution and use of this script, with or without modification, is
@@ -29,7 +29,7 @@ set -e
 
 
 # Basic information. 
-PKGNAME=flash-player
+PKGNAME=flash-player-plugin
 VERSION=${VERSION:-11.1.102.62}
 BUILD=${BUILD:-1}
 TAG=${TAG:-mt}

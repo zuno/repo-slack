@@ -27,11 +27,11 @@
 set -e
 
 PKGNAME=wxWidgets
-VERSION=${VERSION:-2.8.12}
+VERSION=${VERSION:-2.9.3}
 BUILD=${BUILD:-1}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
-SOURCE="http://prdownloads.sourceforge.net/wxwindows/$PKGNAME-$VERSION.tar.gz"
+SOURCE="http://switch.dl.sourceforge.net/project/wxwindows/$VERSION/$PKGNAME-$VERSION.tar.bz2"
 TAR=
 DIR=
 
@@ -97,8 +97,8 @@ CXXFLAGS="$SLKCFLAGS" \
   --build=$CHOST-slackware-linux
 make
 make install DESTDIR=$PKG
-make -C contrib/src/
-make -C contrib/src/ install DESTDIR=$PKG
+#make -C contrib/src/
+#make -C contrib/src/ install DESTDIR=$PKG
 
 mkdir -p $PKG/usr/doc/$PKGNAME-$VERSION
 cp -a \

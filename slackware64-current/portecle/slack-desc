@@ -5,11 +5,11 @@
 # exactly 11 lines for the formatting to be correct.  It's also customary to
 # leave one space after the ':'.
 
-        |-----handy-ruler---------------------------------------------------------|
+        |-----handy-ruler------------------------------------------------------|
 portecle: Portecle
 portecle: 
-portecle: Portecle is a user friendly GUI application for creating, managing and
-portecle: examining keystores, keys, certificates, certificate requests,
+portecle: Portecle is a user friendly GUI application for creating, managing
+portecle: and examining keystores, keys, certificates, certificate requests,
 portecle: certificate revocation lists and more.
 portecle: 
 portecle: 

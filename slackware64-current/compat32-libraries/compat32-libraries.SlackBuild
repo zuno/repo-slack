@@ -29,8 +29,8 @@ set -e
 
 SLACK=${SLACK:-current}
 PKGNAME=compat32-libraries
-VERSION=1.1.04_$SLACK
-BUILD=${BUILD:-1}
+VERSION=1.1.04
+BUILD=${BUILD:-2}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
 SOURCE=http://ftp.osuosl.org/pub/slackware/slackware-$SLACK/slackware
@@ -198,7 +198,9 @@ cat $CWD/slack-desc > $PKG/install/slack-desc
 
 
 cd $PKG
-/sbin/makepkg -l n -c n $OUTPUT/$PKGNAME-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-txz}
+chown -R root:root .
+
+/sbin/makepkg -l y -c y $OUTPUT/$PKGNAME-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-txz}
 
 if [ "$1" = "--cleanup" ]; then
   rm -rf $TMP $FILES
