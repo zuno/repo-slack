@@ -1,4 +1,4 @@
-Fri Jun 22 22:04:05 CEST 2012
+Fri Jun 29 18:18:45 CEST 2012
 -----------------------------
 	modified:   GeoIP/GeoIP.SlackBuild
 	modified:   aMule/aMule.SlackBuild
