@@ -1,0 +1,7 @@
+PRGNAM="libsoup"
+VERSION="2.35.5"
+HOMEPAGE="http://www.gnome.org"
+DOWNLOAD="http://ftp.gnome.org/pub/GNOME/sources/libsoup/2.35/libsoup-2.35.5.tar.bz2"
+MD5SUM="1aa6a10dc1a05b2349648d922d0f3293"
+DOWNLOAD_x86_64=""
+MD5SUM_x86_64=""

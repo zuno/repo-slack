@@ -1,0 +1,7 @@
+PRGNAM="libgnome-keyring"
+VERSION="3.4.1"
+HOMEPAGE="http://www.gnome.org"
+DOWNLOAD="http://ftp.gnome.org/pub/gnome/sources/libgnome-keyring/3.4/libgnome-keyring-3.4.1.tar.xz"
+MD5SUM="b7c5abd89fd92344b15e7adf3079a54a"
+DOWNLOAD_x86_64=""
+MD5SUM_x86_64=""

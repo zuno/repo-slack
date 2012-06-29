@@ -1,3 +1,7 @@
+Mon Jun  4 17:31:04 CEST 2012
+-----------------------------
+	new file:   moos-project-viewer/moos-project-viewer.SlackBuild
+
 Thu May 24 20:34:47 CEST 2012
 -----------------------------
 	modified:   nvidia-linux/nvidia-linux.SlackBuild

@@ -1,0 +1,7 @@
+PRGNAM="gupnp"
+VERSION="0.18.2"
+HOMEPAGE="http://www.gupnp.org"
+DOWNLOAD="http://ftp.acc.umu.se/pub/gnome/sources/gupnp/0.18/gupnp-0.18.2.tar.xz"
+MD5SUM="9ce2bc56abf0275be9b1d0ecdf67e7bf"
+DOWNLOAD_x86_64=""
+MD5SUM_x86_64=""

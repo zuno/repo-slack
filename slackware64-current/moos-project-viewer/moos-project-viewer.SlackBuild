@@ -1,0 +1,93 @@
+#!/bin/sh
+
+# Heavily based on the Slackware 13.1 SlackBuild
+# Written by <Matteo Rossini> ( zerouno@slacky.eu )
+# Last build from <Matteo Rossini> ( zerouno@slacky.eu )
+
+# Slackware build script for moos-project-viewer
+# Official Site: http://www.free-project-viewer.com
+
+# Redistribution and use of this script, with or without modification, is
+# permitted provided that the following conditions are met:
+#
+# 1. Redistributions of this script must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+# THIS SOFTWARE IS PROVIDED BY THE AUTHOR ''AS IS'' AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+# EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+# OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+# ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+set -e
+
+
+
+PKGNAME=moos-project-viewer
+VERSION=${VERSION:-2.8}
+BUILD=${BUILD:-1}
+TAG=${TAG:-mt}
+ARCH=${ARCH:-x86_64}
+SOURCE="http://www.free-project-viewer.com/downloads/MOOS-2.8-Light.zip"
+#SOURCE="http://www.free-project-viewer.com/downloads/MOOS-2.8.0-free.zip"
+
+CWD=$(pwd)
+TMP=${TMP:-/tmp/buildpkgs/$PKGNAME}
+PKG=$TMP/package-$PKGNAME
+OUTPUT=${OUTPUT:-$CWD}
+
+if [ ! -e $CWD/MOOS-2.8-Light.zip ];then
+  wget $SOURCE
+fi
+
+rm -rf $TMP
+mkdir -p $TMP $PKG $OUTPUT
+
+
+cd $PKG
+mkdir -p usr/share/$PKGNAME
+mkdir -p usr/bin
+
+cat $CWD/moosproj.sh > usr/bin/moosproj
+chmod +x usr/bin/moosproj
+
+
+cd usr/share/$PKGNAME
+unzip $CWD/MOOS-$VERSION-Light.zip
+chown -R root:root .
+chmod -R u+w,go+r-w,a-s .
+
+cat $CWD/moosonline.sh > moosonline.sh
+chmod +x moosonline.sh
+chmod +x MOOS.sh
+
+mkdir -p $PKG/usr/doc/$PKGNAME-$VERSION
+mv \
+  Readme.txt lib/license/ \
+  $PKG/usr/doc/$PKGNAME-$VERSION
+
+cat $CWD/$PKGNAME.SlackBuild > $PKG/usr/doc/$PKGNAME-$VERSION/$PKGNAME.SlackBuild
+cat $CWD/slack-desc > $PKG/usr/doc/$PKGNAME-$VERSION/slack-desc
+
+
+mkdir -p $PKG/install
+cat $CWD/slack-desc > $PKG/install/slack-desc
+
+cd $PKG
+chown -R root:root $PKG
+
+if [ -x "$(which requiredbuilder 2>/dev/null)" ];then
+  ADD="jre >= 1.5 | jdk >= 1.5" requiredbuilder -y -v -c -b -s $CWD $PKG 
+fi
+
+/sbin/makepkg -l y -c n $OUTPUT/$PKGNAME-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-txz}
+
+if [ "$1" = "--cleanup" ]; then
+  rm -rf $TMP
+fi
+

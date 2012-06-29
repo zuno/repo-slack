@@ -1,0 +1,7 @@
+PRGNAM="gssdp"
+VERSION="0.12.1"
+HOMEPAGE="http://www.gupnp.org"
+DOWNLOAD="http://ftp.acc.umu.se/pub/gnome/sources/gssdp/0.12/gssdp-0.12.1.tar.xz"
+MD5SUM="e7ac04abe7349a89d13d0ab4ee7d2e1b"
+DOWNLOAD_x86_64=""
+MD5SUM_x86_64=""

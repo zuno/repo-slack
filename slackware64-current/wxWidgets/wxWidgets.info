@@ -1,0 +1,7 @@
+PRGNAM="wxWidgets"
+VERSION="2.8.12"
+HOMEPAGE="http://www.wxwidgets.org"
+DOWNLOAD="http://prdownloads.sourceforge.net/wxwindows/wxWidgets-2.8.12.tar.gz"
+MD5SUM="2fa39da14bc06ea86fe902579fedc5b1"
+DOWNLOAD_x86_64=""
+MD5SUM_x86_64=""

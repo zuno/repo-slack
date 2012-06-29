@@ -1,0 +1,7 @@
+PRGNAM="libevent"
+VERSION="2.0.18"
+HOMEPAGE="http://www.monkey.org/~provos/libevent/"
+DOWNLOAD="https://github.com/downloads/libevent/libevent/libevent-2.0.18-stable.tar.gz"
+MD5SUM="aa1ce9bc0dee7b8084f6855765f2c86a"
+DOWNLOAD_x86_64=""
+MD5SUM_x86_64=""

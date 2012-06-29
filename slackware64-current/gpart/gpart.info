@@ -1,0 +1,7 @@
+PRGNAM="gpart"
+VERSION="0.1h_11"
+HOMEPAGE="http://www.brzitwa.de/mb/gpart/"
+DOWNLOAD="http://ftp.de.debian.org/debian/pool/main/g/gpart/gpart_0.1h.orig.tar.gz http://ftp.de.debian.org/debian/pool/main/g/gpart/gpart_0.1h-11.diff.gz"
+MD5SUM="ee3a2d2dde70bcf404eb354b3d1ee6d4 2e16ffded72c2f5888c5bb9a43d049b9"
+DOWNLOAD_x86_64=""
+MD5SUM_x86_64=""

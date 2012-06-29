@@ -1,0 +1,7 @@
+PRGNAM="libmspack"
+VERSION="0.3alpha"
+HOMEPAGE="http://www.cabextract.org.uk/libmspack/"
+DOWNLOAD="http://www.cabextract.org.uk/libmspack/libmspack-0.3alpha.tar.gz"
+MD5SUM="08d08455b6d58ea649b35febd23f6386"
+DOWNLOAD_x86_64=""
+MD5SUM_x86_64=""

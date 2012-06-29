@@ -1,0 +1,7 @@
+PRGNAM="spkg"
+VERSION="1.0"
+HOMEPAGE="http://spkg.megous.com/"
+DOWNLOAD="http://spkg.megous.com/dl/releases/spkg-1.0.tar.gz"
+MD5SUM="b543c4bd2cd04158de903038a61e7888"
+DOWNLOAD_x86_64=""
+MD5SUM_x86_64=""

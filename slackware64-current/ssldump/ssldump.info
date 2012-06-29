@@ -1,0 +1,7 @@
+PRGNAM="ssldump"
+VERSION="0.9b3"
+HOMEPAGE="http://www.rtfm.com/ssldump/"
+DOWNLOAD="http://ssldump.cvs.sourceforge.net/viewvc/ssldump/ssldump/?view=tar&pathrev=MAIN"
+MD5SUM="56b5f102079faea212983742cb7d68ed"
+DOWNLOAD_x86_64=""
+MD5SUM_x86_64=""
