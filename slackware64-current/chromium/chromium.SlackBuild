@@ -1,0 +1,264 @@
+#!/bin/sh
+
+# Heavily based on the Slackware 13.37 SlackBuild (v1)
+
+# Written by Andrea Sciucca ( gohanz at infinito.it)
+# Last build from Savino Pio Liguori ( jimmy_page_89 AT hotmail DOT it )
+
+# Slackware build script for chromium
+# Official Site: http://www.chromium.org/
+
+#
+# Redistribution and use of this script, with or without modification, is
+# permitted provided that the following conditions are met:
+#
+# 1. Redistributions of this script must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+# THIS SOFTWARE IS PROVIDED BY THE AUTHOR ''AS IS'' AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+# EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+# OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+# ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# Require GConf and ORBit2 from slackware*/extra/
+
+set -e 
+
+
+PKGNAME=chromium
+VERSION=${VERSION:-SNAPSHOT} # Set to SNAPSHOT to install the latest release.
+#VERSION=${VERSION:-20.0.1122.0} # or set your prefered realese
+BUILD=${BUILD:-2}
+TAG=${TAG:-mt}
+ARCH=${ARCH:-x86_64}
+SOURCE="http://gsdview.appspot.com/chromium-browser-official"
+if [ "$VERSION" == "SNAPSHOT" ];then
+  VERSION=`wget $SOURCE/ -O -|egrep -o 'chromium-[0-9\.]+\.tar.bz2'|tail -1|sed -r 's/chromium-([0-9\.]+)\.tar.bz2/\1/'`
+fi
+SOURCE=$SOURCE/chromium-$VERSION.tar.bz2
+TAR=      # empty = auto
+DIR=      # empty = auto
+
+
+
+# If EULA
+if [ -e EULA.TXT ];then
+  more EULA.TXT
+  echo "Do you accept terms? (yes/[no])"
+  read ACCEPT
+  if [ "$ACCEPT" != "yes" ];then
+    echo; echo "SlackBuild Aborted!!"
+    exit 1
+  fi
+fi
+
+
+
+# Does not touch following if not needed
+CWD=$(pwd)
+TMP=${TMP:-/tmp/buildpkgs/$PKGNAME}
+PKG=$TMP/package-$PKGNAME
+OUTPUT=${OUTPUT:-$CWD}
+TAR=${TAR:-$(basename $SOURCE)}
+DIR=${DIR:-$(echo "$TAR"|sed -r 's/(\.tar|)(.gz|.bz2|)$//')}
+
+if [ ! -e "$CWD/$TAR" -a "$CONTINUE" != "1" ];then
+  wget "$SOURCE" -O "$CWD/$TAR"
+fi
+
+
+
+CHOST="i486"
+if [ "$ARCH" = "i486" ]; then
+  SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "i586" ]; then
+  SLKCFLAGS="-O2 -march=i586 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "i686" ]; then
+  SLKCFLAGS="-O2 -march=i686 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "x86_64" ]; then
+  SLKCFLAGS="-O2 -fPIC -fno-ipa-cp"
+  LIBDIRSUFFIX="64"
+  CHOST="x86_64"
+fi
+
+
+if [ "$CONTINUE" != "1" ];then
+  ### Preparing Source
+  rm -rf $TMP
+  mkdir -p $TMP $PKG $OUTPUT
+  cd $TMP
+  echo "Extracting source..."
+  tar xf $CWD/$TAR
+  cd $DIR
+
+  chown -R root:root .
+  chmod -R u+w,go+r-w,a-s .
+  CONFIGURE=1
+fi
+
+# Building Chromium package
+
+if [ "$CONFIGURE" == "1" ];then
+  cd $TMP/$DIR
+   PKG_CONFIG_PATH=$CWD:$PKG_CONFIG_PATH \
+   build/gyp_chromium -f make build/all.gyp --depth=. \
+    -Dgcc_version=47 \
+    -Dno_strict_aliasing=1 \
+    -Dwerror= \
+    -Dlinux_sandbox_path=/usr/lib${LIBDIRSUFFIX}/$PKGNAME/chromium-sandbox \
+    -Dlinux_sandbox_chrome_path=/usr/lib${LIBDIRSUFFIX}/$PKGNAME/chromium \
+    -Dlinux_strip_binary=1 \
+    -Drelease_extra_cflags="$SLKCFLAGS ${CFLAGS}" \
+    -Dffmpeg_branding=Chrome \
+    -Dproprietary_codecs=1 \
+    -Duse_system_libjpeg=1 \
+    -Duse_system_libxslt=1 \
+    -Duse_system_libxml=1 \
+    -Duse_system_bzip2=1 \
+    -Duse_system_zlib=1 \
+    -Duse_system_libpng=1 \
+    -Duse_system_ffmpeg=0 \
+    -Duse_system_yasm=1 \
+    -Duse_system_libevent=0 \
+    -Duse_system_ssl=0 \
+    -Duse_gnome_keyring=0 \
+    -Dlinux_link_gnome_keyring=0 \
+    -Ddisable_nacl=1 \
+    -Duse_kerberos=0 \
+    -Duse_gcond=0 \
+    $([ "${ARCH}" == 'i686' ] && echo '-Ddisable_sse2=1')
+fi
+
+cd $TMP/$DIR
+
+### Building Chrome executable
+CXXFLAGS="-include /usr/include/expat.h -include unistd.h" \
+make chrome chrome_sandbox BUILDTYPE=Release
+
+# Installing Chrome executable
+install -m 0755 -D  out/Release/chrome $PKG/usr/lib${LIBDIRSUFFIX}/$PKGNAME/chromium
+
+
+# Installing Chrome-Sandbox
+install -m 4555 -o root -g root -D out/Release/chrome_sandbox \
+     $PKG/usr/lib${LIBDIRSUFFIX}/$PKGNAME/chromium-sandbox
+
+# Installing Chrome data
+install -m 0644 -D out/Release/chrome.pak \
+     $PKG/usr/lib${LIBDIRSUFFIX}/$PKGNAME/chrome.pak
+
+# Installing resources 
+install -m 0644 -D out/Release/resources.pak \
+     $PKG/usr/lib${LIBDIRSUFFIX}/$PKGNAME/resources.pak
+install -m 0644 -D out/Release/ui_resources_standard.pak \
+     $PKG/usr/lib${LIBDIRSUFFIX}/$PKGNAME/ui_resources_standard.pak
+install -m 0644 -D out/Release/theme_resources_standard.pak \
+     $PKG/usr/lib${LIBDIRSUFFIX}/$PKGNAME/theme_resources_standard.pak
+
+# Installing Chrome FFmpeg library
+install -m 0755 -D out/Release/libffmpegsumo.so \
+     $PKG/usr/lib${LIBDIRSUFFIX}/$PKGNAME/libffmpegsumo.so
+
+# Installing resources 
+cp -a out/Release/locales out/Release/resources \
+    $PKG/usr/lib${LIBDIRSUFFIX}/$PKGNAME/
+
+
+# Cleaning package
+find $PKG/usr/lib${LIBDIRSUFFIX}/$PKGNAME/ -name '*.d' -type f -delete
+
+
+
+# Installing manpage
+install -m 0644 -D out/Release/chrome.1 \
+    $PKG/usr/man/man1/$PKGNAME.1
+
+
+# Installing desktop menu file
+install -m 0644 -D $CWD/$PKGNAME.desktop \
+    $PKG/usr/share/applications/$PKGNAME.desktop
+
+
+# Installing icons directory
+cd chrome/app/theme/chromium/
+for res in 16 22 24 32 48 64 128 256 ;do
+  dir=${PKG}/usr/share/icons/hicolor/${res}x${res}/apps
+  mkdir -p ${dir}
+  install -m0644 product_logo_${res}.png \
+                 ${dir}/${PKGNAME}.png
+done
+cd - 
+
+# Linking Chrome executable on default path 
+mkdir -p $PKG/usr/bin
+cd $PKG
+  ln -s ../../usr/lib${LIBDIRSUFFIX}/chromium/chromium $PKG/usr/bin/chromium
+  ln -s ../../usr/lib${LIBDIRSUFFIX}/chromium/chromium-sandbox $PKG/usr/bin/chromium-sandbox
+cd -
+chmod 755 $PKG/usr/bin/*
+
+
+
+
+
+#Add documentation files: readme, changelog and so on
+mkdir -p $PKG/usr/doc/$PKGNAME-$VERSION
+cp -r \
+  [A-Z]* \
+  $PKG/usr/doc/$PKGNAME-$VERSION
+cat $CWD/$PKGNAME.SlackBuild > $PKG/usr/doc/$PKGNAME-$VERSION/$PKGNAME.SlackBuild
+cat $CWD/slack-desc > $PKG/usr/doc/$PKGNAME-$VERSION/slack-desc
+
+
+
+
+# Compress the man pages if present
+if [ -d $PKG/usr/man ]; then
+    ( cd $PKG/usr/man
+      find . -type f -exec gzip -9 {} \;
+      for i in $( find . -type l ) ; do ln -s $( readlink $i ).gz $i.gz ; rm $i ; done
+    )
+fi
+
+# Strip binaries and shared objects, if present
+( cd $PKG
+  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs -r strip --strip-unneeded 2> /dev/null || true
+  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs -r strip --strip-unneeded 2> /dev/null || true
+  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs -r strip --strip-unneeded 2> /dev/null || true
+)
+
+
+
+mkdir -p $PKG/install
+cat $CWD/slack-desc > $PKG/install/slack-desc
+[ -e $CWD/doinst.sh ] && cat $CWD/doinst.sh > $PKG/install/doinst.sh
+
+
+
+# Find and print dependencies into slack-required file
+cd $PKG
+chown -R root:root $PKG
+if [ -x /usr/bin/requiredbuilder ];then
+  ADD=$(ls /var/log/packages/ | sed -rne 's/(seamonkey-solibs)-([^-]+-[^-]+-[^-]+)/\1 >= \2/p') \
+  requiredbuilder -y -v -b -s  $CWD $PKG
+fi
+# Create txz package
+## NOTE THE -p parameter
+/sbin/makepkg -p -l y -c n $OUTPUT/$PKGNAME-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-txz}
+
+
+# Cleanup if enabled
+if [ "$1" = "--cleanup" ]; then
+ rm -rf $TMP
+fi
+
+
