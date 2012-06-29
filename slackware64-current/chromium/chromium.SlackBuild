@@ -34,7 +34,7 @@ set -e
 PKGNAME=chromium
 VERSION=${VERSION:-SNAPSHOT} # Set to SNAPSHOT to install the latest release.
 #VERSION=${VERSION:-20.0.1122.0} # or set your prefered realese
-BUILD=${BUILD:-2}
+BUILD=${BUILD:-1}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
 SOURCE="http://gsdview.appspot.com/chromium-browser-official"
@@ -109,7 +109,6 @@ fi
 
 if [ "$CONFIGURE" == "1" ];then
   cd $TMP/$DIR
-   PKG_CONFIG_PATH=$CWD:$PKG_CONFIG_PATH \
    build/gyp_chromium -f make build/all.gyp --depth=. \
     -Dgcc_version=47 \
     -Dno_strict_aliasing=1 \
