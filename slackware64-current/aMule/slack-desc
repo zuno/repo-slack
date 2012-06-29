@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+     |-----handy-ruler------------------------------------------------------|
+aMule: aMule (WxGTK eMule-like Client)
+aMule:
+aMule: The "all-platform eMule", it is a  eMule-like client for ed2k network
+aMule: supporting Linux, *BSD platforms, Solaris, *MacOSX and *Win32 (*soon)
+aMule: It was forked from xMule  project back in september 2003 (not related
+aMule: to it anymore, except  little  bits  of  old  code), to drive it to a
+aMule: brand  new  direction  and  quality. Uses  wxWidgets (formely know as
+aMule: as wxWindows) for multiplatform support.
+aMule:
+aMule:
+aMule:

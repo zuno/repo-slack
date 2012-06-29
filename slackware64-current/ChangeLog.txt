@@ -1,3 +1,13 @@
+Tue May 22 00:45:26 CEST 2012
+-----------------------------
+	new file:   GeoIP/GeoIP.SlackBuild
+	new file:   aMule/aMule.SlackBuild
+	new file:   cryptopp/cryptopp.SlackBuild
+	new file:   libmspack/libmspack.SlackBuild
+	new file:   libupnp/libupnp.SlackBuild
+	new file:   wxGTK/wxGTK.SlackBuild
+	new file:   wxWidgets/wxWidgets.SlackBuild
+
 Mon May 14 22:07:19 CEST 2012
 -----------------------------
 	new file:   portecle/portecle.SlackBuild

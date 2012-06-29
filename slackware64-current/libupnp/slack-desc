@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|' on
+# the right side marks the last column you can put a character in.  You must make
+# exactly 11 lines for the formatting to be correct.  It's also customary to
+# leave one space after the ':'.
+
+       |-----handy-ruler------------------------------------------------------|
+libupnp: Libupnp (Linux SDK for UPnP Devices)
+libupnp:
+libupnp: UPnP is an architecture  that enables  discovery, event notification
+libupnp: and control of devices on a network, independent of operating system
+libupnp: programming language, or physical network connection.  UPnP is based
+libupnp: on common Internet standards and specifications such as TCP/IP, HTTP
+libupnp: and XML.
+libupnp:
+libupnp:
+libupnp:
+libupnp:

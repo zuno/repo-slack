@@ -1,0 +1,15 @@
+--- GNUmakefile.orig	2010-08-09 14:22:42.000000000 +0200
++++ GNUmakefile	2012-05-22 00:31:16.049227160 +0200
+@@ -140,10 +140,9 @@
+ 	$(RM) cryptest.exe libcryptopp.a $(LIBOBJS) $(TESTOBJS) cryptopp.dll libcryptopp.dll.a libcryptopp.import.a cryptest.import.exe dlltest.exe $(DLLOBJS) $(LIBIMPORTOBJS) $(TESTIMPORTOBJS) $(DLLTESTOBJS)
+ 
+ install:
+-	$(MKDIR) -p $(PREFIX)/include/cryptopp $(PREFIX)/lib $(PREFIX)/bin
++	$(MKDIR) -p $(PREFIX)/include/cryptopp $(PREFIX)/lib64 $(PREFIX)/bin
+ 	$(CP) *.h $(PREFIX)/include/cryptopp
+-	$(CP) *.a $(PREFIX)/lib
+-	$(CP) *.so $(PREFIX)/lib
++	$(CP) *.a $(PREFIX)/lib64
+ 	$(CP) *.exe $(PREFIX)/bin
+ 
+ libcryptopp.a: $(LIBOBJS)
