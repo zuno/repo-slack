@@ -29,8 +29,8 @@ set -e
 
 SLACK=${SLACK:-current}  # if do you have slackware current: SLACK=current
 PKGNAME=skype_static
-VERSION=${VERSION:-2.2.0.99}
-BUILD=${BUILD:-1}
+VERSION=${VERSION:-4.0.0.7}
+BUILD=${BUILD:-2}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
 SOURCE=http://download.skype.com/linux/$PKGNAME-$VERSION.tar.bz2
@@ -39,7 +39,7 @@ SOURCE=http://download.skype.com/linux/$PKGNAME-$VERSION.tar.bz2
 LIBS=${LIBS:-http://slackware.cs.utah.edu/pub/slackware/slackware-$SLACK/slackware} # if do you have a slackware dvd: LIBS=/mnt/cdrom/slackware (not tested)
 
 TAR=
-DIR=${PKGNAME}QT-2.2.0.99
+DIR=${PKGNAME}QT-$VERSION
 
 if [ -e EULA.TXT ];then
   more EULA.TXT

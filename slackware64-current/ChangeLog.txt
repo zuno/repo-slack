@@ -1,3 +1,7 @@
+Fri Jun 15 15:47:40 CEST 2012
+-----------------------------
+	modified:   skype_static/skype_static.SlackBuild
+
 Mon Jun  4 17:31:04 CEST 2012
 -----------------------------
 	new file:   moos-project-viewer/moos-project-viewer.SlackBuild
