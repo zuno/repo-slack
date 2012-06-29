@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+        |-----handy-ruler------------------------------------------------------|
+rarlinux: rarlinux (RAR Archiver!)
+rarlinux:
+rarlinux: RAR is a powerful tool allowing you to manage and control archive
+rarlinux: files. Console RAR supports archives only in RAR format, which
+rarlinux: names usually have a ".rar" extension. ZIP and other
+rarlinux: formats are not supported.
+rarlinux:
+rarlinux:
+rarlinux:
+rarlinux:
+rarlinux: 

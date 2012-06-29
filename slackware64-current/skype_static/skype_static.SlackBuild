@@ -1,0 +1,177 @@
+#!/bin/sh
+
+# Heavily based on the Slackware 13.37 SlackBuild (v1)
+
+# Written by Loris Vincenzi (http://www.slacky.eu)
+# Last build from Savino Pio Liguori ( jimmy_page_89 AT hotmail DOT it )
+
+# Slackware build script for skype
+# Official Site: http://www.skype.com/
+#
+# Redistribution and use of this script, with or without modification, is
+# permitted provided that the following conditions are met:
+#
+# 1. Redistributions of this script must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+# THIS SOFTWARE IS PROVIDED BY THE AUTHOR ''AS IS'' AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+# EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+# OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+# ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+set -e
+
+SLACK=${SLACK:-current}  # if do you have slackware current: SLACK=current
+PKGNAME=skype_static
+VERSION=${VERSION:-2.2.0.35}
+BUILD=${BUILD:-4}
+TAG=${TAG:-mt_current}
+ARCH=${ARCH:-x86_64}
+SOURCE=http://download.skype.com/linux/$PKGNAME-$VERSION.tar.bz2
+
+# Slackware Utah mirror is so fast ;) 
+LIBS=${LIBS:-http://slackware.cs.utah.edu/pub/slackware/slackware-$SLACK/slackware} # if do you have a slackware dvd: LIBS=/mnt/cdrom/slackware (not tested)
+
+TAR=
+DIR=
+
+if [ -e EULA.TXT ];then
+  more EULA.TXT
+  echo "Do you accept terms? (yes/[no])"
+  read ACCEPT
+  if [ "$ACCEPT" != "yes" ];then
+    echo; echo "SlackBuild Aborted!!"
+    exit 1
+  fi
+fi
+
+CWD=$(pwd)
+TMP=${TMP:-/tmp/buildpkgs-current/$PKGNAME}
+PKG=$TMP/package-$PKGNAME
+OUTPUT=${OUTPUT:-$CWD}
+TAR=${TAR:-$(basename $SOURCE)}
+DIR=${DIR:-$(echo "$TAR"|sed -r 's/(\.tar|)(.gz|.bz2|)$//')}
+
+LIB=$TMP/libraries
+
+
+if [ ! -e "$CWD/$TAR" ];then
+  wget "$SOURCE" -O "$CWD/$TAR"
+fi
+
+rm -rf $PKG
+mkdir -p $TMP $PKG $OUTPUT $LIB 
+
+cd $LIB
+CHECKSUMS=$LIB/CHECKSUMS.md5
+rm -f $CHECKSUMS
+if [ ${LIBS:0:1} == "/" ];then
+  cp $LIBS/CHECKSUMS.md5 $CHECKSUMS
+else
+  wget -O $CHECKSUMS $LIBS/CHECKSUMS.md5
+fi
+
+mkdir -p $PKG/usr/share/skype/lib32
+cat $CWD/libraries.txt|while read P L W;do
+  echo "Install library $L from $P"
+  PP=$(grep -w $P CHECKSUMS.md5 |grep txz$|awk '{print $2}')
+  PB=$(basename $PP)
+  PC=$(grep -w $P CHECKSUMS.md5 |grep txz$|awk '{print $1}')
+  if [ -e $PB ];then
+    if ! md5sum $PB|grep -q $PC ;then
+      rm $PB
+    fi
+  fi
+  if [ ! -e $PB ];then
+    if [ ${LIBS:0:1} == "/" ];then
+      cp $LIBS/$PP $PB
+    else
+      wget $LIBS/$PP -O $PB
+    fi
+  fi
+  if ! md5sum $PB|grep -q $PC;then
+    echo "ABORT! MD5 DOES NOT MATCH ($PB)."
+    exit
+  fi
+  FILE=$(tar tf $PB | grep $W||true)
+  if [ -z "$FILE" ];then
+    echo "ABORT! Library $W not found in $PP"
+    exit 1
+  fi
+  tar xf $PB $FILE
+  mv $FILE $PKG/usr/share/skype/lib32
+  if [ "`basename $FILE`" != "$L" ];then
+    ln -s `basename $FILE` $PKG/usr/share/skype/lib32/$L
+  fi
+done
+
+
+cd $TMP
+tar xvf $CWD/$TAR
+cd $DIR
+
+
+chown -R root:root .
+chmod -R u+w,go+r-w,a-s .
+
+
+mkdir -p $PKG/usr/bin
+cat $CWD/usr-bin-skype > $PKG/usr/bin/skype
+chmod 755 $PKG/usr/bin/skype
+
+cp -a skype $PKG/usr/share/skype
+
+mkdir -p $PKG/etc/dbus-1/system.d
+cp skype.conf $PKG/etc/dbus-1/system.d
+
+mkdir -p $PKG/usr/share/skype
+cp -a sounds avatars lang $PKG/usr/share/skype
+
+mkdir -p $PKG/usr/share/applications
+cp -a skype.desktop $PKG/usr/share/applications
+
+mkdir -p  $PKG/usr/share/icons/hicolor/16x16/apps
+mkdir -p  $PKG/usr/share/icons/hicolor/32x32/apps
+mkdir -p  $PKG/usr/share/icons/hicolor/48x48/apps
+
+( cd icons
+cp -a SkypeBlue*16*.png $PKG/usr/share/icons/hicolor/16x16/apps/skype.png
+cp -a SkypeBlue*32*.png $PKG/usr/share/icons/hicolor/32x32/apps/skype.png
+cp -a SkypeBlue*48*.png $PKG/usr/share/icons/hicolor/48x48/apps/skype.png
+)
+
+
+# Documentations
+mkdir -p $PKG/usr/doc/$PKGNAME-$VERSION
+cp -r \
+  [A-Z]* \
+  $PKG/usr/doc/$PKGNAME-$VERSION
+
+cat $CWD/$PKGNAME.SlackBuild > $PKG/usr/doc/$PKGNAME-$VERSION/$PKGNAME.SlackBuild
+cat $CWD/slack-desc |sed "s/VERSION/$SLACK/" > $PKG/usr/doc/$PKGNAME-$VERSION/slack-desc
+
+
+if [ -d $PKG/usr/man ]; then
+  ( cd $PKG/usr/man
+    find . -type f -exec gzip -9 {} \;
+    for i in $( find . -type l ) ; do ln -s $( readlink $i ).gz $i.gz ; rm $i ; done
+  )
+fi
+
+mkdir -p $PKG/install
+cat $CWD/slack-desc |sed "s/VERSION/$SLACK/" > $PKG/install/slack-desc
+[ -e $CWD/doinst.sh ] && cat $CWD/doinst.sh > $PKG/install/doinst.sh
+
+cd $PKG
+
+/sbin/makepkg -l y -c n $OUTPUT/$PKGNAME-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-txz}
+
+if [ "$1" = "--cleanup" ]; then
+ rm -rf $TMP
+fi

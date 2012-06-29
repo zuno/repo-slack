@@ -1,0 +1,3 @@
+bzip2 >= 1.0.6-x86_64-1
+glibc-solibs >= 2.15-x86_64-2
+openssl >= 0.9.8t-x86_64-1 | openssl-solibs >= 0.9.8t-x86_64-1

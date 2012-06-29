@@ -1,0 +1,20 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+     |-----handy-ruler------------------------------------------------------|
+gpart: gpart (Guess PC disk partition table, find lost partitions)
+gpart:
+gpart: Gpart is a tool which tries to guess the primary partition table of a
+gpart: PC-type disk in case the primary partition table in sector 0 is 
+gpart: damaged, incorrect or deleted. 
+gpart:
+gpart: It is also good at finding and listing the types, locations, and 
+gpart: sizes of inadvertently-deleted partitions, both primary and logical. 
+gpart: 
+gpart: Currently support many filesystem, and many partition model.
+gpart:
+

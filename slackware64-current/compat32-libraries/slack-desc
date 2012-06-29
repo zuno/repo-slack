@@ -1,0 +1,20 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+|-----handy-ruler------------------------------------------------------|
+compat32-libraries: 32bit compatibility mega-pack for Slackware64
+compat32-libraries: 
+compat32-libraries: This package is a collection of many 32bit
+compat32-libraries: library needed for running most 32bit applications
+compat32-libraries: on a Slackware64
+compat32-libraries: 
+compat32-libraries: Well... now your have a Slackware-multilibs
+compat32-libraries: 
+compat32-libraries: Thanx to AlienBob for compat32-tools
+compat32-libraries: 
+compat32-libraries: 
+

@@ -1,0 +1,263 @@
+#!/bin/sh
+
+# Heavily based on the Slackware 13.37 SlackBuild (v1)
+
+# Written by Matteo Rossini ( zerouno @ slacky.it )
+# Last build from Matteo Rossini ( zerouno @ slacky.it )
+
+# Slackware build script for nvidia-linux
+# Official Site: http://www.nvidia.com/Download/index.aspx
+
+# Redistribution and use of this script, with or without modification, is
+# permitted provided that the following conditions are met:
+#
+# 1. Redistributions of this script must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+# THIS SOFTWARE IS PROVIDED BY THE AUTHOR ''AS IS'' AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+# EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+# OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+# ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+set -e
+
+
+# Basic information. 
+PKGNAME=nvidia-linux
+VERSION=${VERSION:-295.40}
+BUILD=${BUILD:-2}
+TAG=${TAG:-mt}
+ARCH=${ARCH:-x86_64}
+COMPAT32=${COMPAT32:-yes} # no / yes
+MODPREBUILD=${MODPREBUILD:-yes} # no / yes
+NARCH=x86
+if [ $ARCH == "x86_64" ];then NARCH=x86_64;fi 
+SOURCE="http://download.nvidia.com/XFree86/Linux-$ARCH/$VERSION/NVIDIA-Linux-$NARCH-$VERSION.run"
+TAR=NVIDIA-Linux-$NARCH-$VERSION.run      # empty = auto
+DIR=NVIDIA-Linux-$NARCH-$VERSION      # empty = auto
+
+# If EULA
+if [ -e EULA.TXT ];then
+  more EULA.TXT
+  echo "Do you accept terms? (yes/[no])"
+  read ACCEPT
+  if [ "$ACCEPT" != "yes" ];then
+    echo; echo "SlackBuild Aborted!!"
+    exit 1
+  fi
+fi
+
+# Does not touch following if not needed
+CWD=$(pwd)
+TMP=${TMP:-/tmp/buildpkgs/$PKGNAME}
+PKG=$TMP/package-$PKGNAME
+OUTPUT=${OUTPUT:-$CWD}
+TAR=${TAR:-$(basename $SOURCE)}
+DIR=${DIR:-$(echo "$TAR"|sed -r 's/(\.tar|)(.gz|.bz2|)$//')}
+
+if [ ! -e "$CWD/$TAR" ];then
+  wget "$SOURCE" -O "$CWD/$TAR"
+fi
+
+CHOST="i486"
+if [ "$ARCH" = "i486" ]; then
+  SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "i586" ]; then
+  SLKCFLAGS="-O2 -march=i586 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "i686" ]; then
+  SLKCFLAGS="-O2 -march=i686 -mtune=i686"
+  LIBDIRSUFFIX=""
+elif [ "$ARCH" = "x86_64" ]; then
+  SLKCFLAGS="-O2 -fPIC"
+  LIBDIRSUFFIX="64"
+  CHOST="x86_64"
+fi
+
+### Preparing Source
+rm -rf $TMP
+mkdir -p $TMP $PKG $OUTPUT
+cd $TMP
+sh $CWD/$TAR -x
+cd $DIR
+
+chown -R root:root .
+chmod -R u+w,go+r-w,a-s .
+
+## Standard
+mkdir -p $PKG/install
+cat $CWD/slack-desc > $PKG/install/slack-desc
+[ -e $CWD/doinst.sh ] && cat $CWD/doinst.sh |sed "s/LIBDIRSUFFIX/${LIBDIRSUFFIX}/g" > $PKG/install/doinst.sh
+
+## Installation
+
+# Base
+
+mkdir -p $PKG/etc/OpenCL/vendors $PKG/etc/modprobe.d $PKG/etc/X11/xorg.conf.d $PKG/usr/bin $PKG/usr/share/$PKGNAME $PKG/usr/share/applications
+install -m 644 nvidia.icd $PKG/etc/OpenCL/vendors
+install -m 644 $CWD/nvidia-modprobe.conf $PKG/etc/modprobe.d/nvidia.conf.new
+install -m 644 $CWD/nvidia-xorg.conf $PKG/etc/X11/xorg.conf.d/nvidia.conf.new
+install -m 755 nvidia-settings nvidia-smi nvidia-xconfig nvidia-debugdump $PKG/usr/bin
+install -m 755 $CWD/makekernelmodule.sh $PKG/usr/share/$PKGNAME/makekernelmodule.sh
+install -m 644 nvidia-settings.png $PKG/usr/share/$PKGNAME
+cp -a kernel $PKG/usr/share/$PKGNAME
+cat nvidia-settings.desktop |sed -e 's,__UTILS_PATH__,/usr/bin,' -e "s,__PIXMAP_PATH__,/usr/share/$PKGNAME," > $PKG/usr/share/applications/nvidia-settings.desktop
+
+# Install Libraries
+
+mkdir -p $PKG/usr/lib${LIBDIRSUFFIX}/{vdpau,tls}
+
+install -m 755 \
+    libGL.so.$VERSION \
+    libOpenCL.so.1.0.0 \
+    libXvMCNVIDIA.a \
+    libXvMCNVIDIA.so.$VERSION \
+    libcuda.so.$VERSION \
+    libnvcuvid.so.$VERSION \
+    libnvidia-cfg.so.$VERSION \
+    libnvidia-compiler.so.$VERSION \
+    libnvidia-glcore.so.$VERSION \
+    libnvidia-ml.so.$VERSION \
+    libnvidia-tls.so.$VERSION \
+    libvdpau.so.$VERSION \
+  $PKG/usr/lib${LIBDIRSUFFIX}
+  cd $PKG/usr/lib${LIBDIRSUFFIX}
+    ln -sf libGL.so.$VERSION libGL.so.1
+    ln -sf libGL.so.1 libGL.so
+    ln -sf libOpenCL.so.1.0.0 libOpenCL.so.1.0
+    ln -sf libOpenCL.so.1.0 libOpenCL.so.1
+    ln -sf libOpenCL.so.1 libOpenCL.so
+    ln -sf libXvMCNVIDIA.so.$VERSION libXvMCNVIDIA_dynamic.so.1
+    ln -sf libXvMCNVIDIA_dynamic.so libXvMCNVIDIA_dynamic.so.1
+    ln -sf libcuda.so.$VERSION libcuda.so.1
+    ln -sf libcuda.so.1 libcuda.so
+    ln -sf libnvcuvid.so.$VERSION libnvcuvid.so.1
+    ln -sf libnvcuvid.so.1 libnvcuvid.so
+    ln -sf libnvidia-cfg.so.$VERSION libnvidia-cfg.so.1
+    ln -sf libnvidia-cfg.so.1 libnvidia-cfg.so
+    ln -sf libnvidia-ml.so.$VERSION libnvidia-ml.so.1
+    ln -sf libnvidia-ml.so.1 libnvidia-ml.so
+    ln -sf libvdpau.so.$VERSION libvdpau.so.1
+    ln -sf libvdpau.so.1 libvdpau.so
+    ln -sf vdpau/libvdpau_nvidia.so.$VERSION libvdpau_nvidia.so
+    ln -sf vdpau/libvdpau_trace.so.$VERSION libvdpau_trace.so
+  cd -
+
+
+install -m 755 \
+    libvdpau_nvidia.so.$VERSION \
+    libvdpau_trace.so.$VERSION \
+  $PKG/usr/lib${LIBDIRSUFFIX}/vdpau
+  cd $PKG/usr/lib${LIBDIRSUFFIX}/vdpau
+    ln -sf libvdpau_nvidia.so.1 libvdpau_nvidia.so
+    ln -sf libvdpau_trace.so.1 libvdpau_trace.so
+  cd -
+
+install -m 755 tls/libnvidia-tls.so.$VERSION $PKG/usr/lib${LIBDIRSUFFIX}/tls
+
+mkdir -p $PKG/usr/lib${LIBDIRSUFFIX}/xorg/modules/{drivers,extensions}
+install -m 755 nvidia_drv.so $PKG/usr/lib${LIBDIRSUFFIX}/xorg/modules/drivers
+install -m 755 libglx.so.$VERSION $PKG/usr/lib${LIBDIRSUFFIX}/xorg/modules/extensions
+install -m 755 libnvidia-wfb.so.$VERSION $PKG/usr/lib${LIBDIRSUFFIX}/xorg/modules
+
+ln -sf libglx.so.$VERSION $PKG/usr/lib${LIBDIRSUFFIX}/xorg/modules/extensions/libglx.so
+ln -sf libnvidia-wfb.so.$VERSION $PKG/usr/lib${LIBDIRSUFFIX}/xorg/modules/libnvidia-wfb.so.1
+
+install -D -m 644 libGL.la $PKG/usr/lib${LIBDIRSUFFIX}/
+sed -i "s,__LIBGL_PATH__,/usr/lib${LIBDIRSUFFIX}," $PKG/usr/lib${LIBDIRSUFFIX}/libGL.la
+sed -i "s,/usr/X11R6/lib,/usr/X11R6/lib${LIBDIRSUFFIX}," $PKG/usr/lib${LIBDIRSUFFIX}/libGL.la
+
+if [ "$COMPAT32" = "yes" -a "$ARCH" = "x86_64" ]; then
+  mkdir -p $PKG/usr/lib/vdpau
+  install -m 755 \
+      32/libGL.so.$VERSION \
+      32/libOpenCL.so.1.0.0 \
+      32/libcuda.so.$VERSION \
+      32/libnvidia-compiler.so.$VERSION \
+      32/libnvidia-glcore.so.$VERSION \
+      32/libnvidia-ml.so.$VERSION \
+      32/libnvidia-tls.so.$VERSION \
+      32/libvdpau.so.$VERSION \
+    $PKG/usr/lib
+    cd $PKG/usr/lib
+      ln -sf libGL.so.$VERSION libGL.so.1
+      ln -sf libGL.so.1 libGL.so
+      ln -sf libOpenCL.so.1.0.0 libOpenCL.so.1.0
+      ln -sf libOpenCL.so.1.0 libOpenCL.so.1
+      ln -sf libOpenCL.so.1 libOpenCL.so
+      ln -sf libcuda.so.$VERSION libcuda.so.1
+      ln -sf libcuda.so.1 libcuda.so
+      ln -sf libnvidia-ml.so.$VERSION libnvidia-ml.so.1
+      ln -sf libnvidia-ml.so.1 libnvidia-ml.so
+      ln -sf libvdpau.so.$VERSION libvdpau.so.1
+      ln -sf libvdpau.so.1 libvdpau.so
+      ln -sf vdpau/libvdpau_nvidia.so.$VERSION libvdpau_nvidia.so
+      ln -sf vdpau/libvdpau_trace.so.$VERSION libvdpau_trace.so 
+    cd -
+
+  install -m 755 \
+      32/libvdpau_nvidia.so.$VERSION \
+      32/libvdpau_trace.so.$VERSION \
+    $PKG/usr/lib/vdpau
+    cd $PKG/usr/lib/vdpau
+      ln -sf libvdpau_nvidia.so.$VERSION libvdpau_nvidia.so.1
+      ln -sf libvdpau_trace.so.$VERSION libvdpau_trace.so.1
+    cd -
+
+  install -D -m 644 32/libGL.la $PKG/usr/lib
+  sed -i "s,__LIBGL_PATH__,/usr/lib," $PKG/usr/lib/libGL.la
+
+  echo "$PKGNAME:    This version does include 32bit compatibility libraries" >> $PKG/install/slack-desc
+fi
+
+# Documentation
+
+mkdir -p $PKG/usr/doc/$PKGNAME-$VERSION
+cp -a html README.txt LICENSE NVIDIA_Changelog $PKG/usr/doc/$PKGNAME-$VERSION
+
+mkdir -p $PKG/usr/man/man1
+cp -a nvidia-settings.1.gz nvidia-smi.1.gz nvidia-xconfig.1.gz $PKG/usr/man/man1/
+
+
+
+mkdir -p $PKG/var/lib/nvidia
+
+# Kernel Modules
+if [ "$MODPREBUILD" == "yes" ];then
+  cd kernel
+  KERNEL=${KERNEL:-$(uname -r)}
+  KERNELPATH=${KERNELPATH:-/lib/modules/${KERNEL}/build}
+  make SYSSRC=$KERNELPATH module
+  mkdir -p $PKG/lib/modules/`uname -r`/kernel/drivers/video
+  cp nvidia.ko $PKG/lib/modules/`uname -r`/kernel/drivers/video/nvidia.ko
+  echo "$PKGNAME:    This version does include prebuilt module for kernel `uname -r`" >> $PKG/install/slack-desc
+  echo "chroot . /sbin/depmod -a" >> $PKG/install/doinst.sh
+  echo >> $PKG/install/doinst.sh
+else
+  echo "$PKGNAME:    After installation you must to install the kernel module" >> $PKG/install/slack-desc
+  echo "$PKGNAME:    with command /usr/share/$PKGNAME/makekernelmodule.sh" >> $PKG/install/slack-desc
+fi
+
+cat $PKG/install/slack-desc > $PKG/usr/doc/$PKGNAME-$VERSION/slack-desc
+cat $CWD/$PKGNAME.SlackBuild > $PKG/usr/doc/$PKGNAME-$VERSION/$PKGNAME.SlackBuild
+cat $CWD/NVIDIA.Slackware > $PKG/usr/doc/$PKGNAME-$VERSION/NVIDIA.Slackware
+
+cd $PKG
+chown -R root:root $PKG
+
+#if [ -x "$(which requiredbuilder 2>/dev/null)" ];then
+#  requiredbuilder -y -v -s $CWD $PKG   # add "-c -b" if you have binary files in /usr/share 
+#fi
+
+/sbin/makepkg -l y -c n $OUTPUT/$PKGNAME-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-txz}
+
+if [ "$1" = "--cleanup" ]; then
+  rm -rf $TMP
+fi

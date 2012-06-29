@@ -1,0 +1,30 @@
+aaa_elflibs glibc-solibs
+
+bzip2 cups cxxlibs dbus e2fsprogs util-linux
+
+mpg123 mysql sqlite
+
+libtool
+gdk-pixbuf2
+
+alsa-lib alsa-oss atk audiofile cairo dbus-glib esound expat freetype gamin 
+glib2 libart_lgpl libexif libidn libjpeg libmng libpng libtermcap
+libtiff libxml2 jasper lcms libxslt ncurses svgalib v4l-utils popt qt
+readline sdl zlib gtk+2 pango seamonkey-solibs
+libcap libmpc libdbusmenu-qt libelf libsndfile t1lib libplist
+
+
+curl cyrus-sasl gnutls libgcrypt libgpg-error openldap-client openssl
+
+libX11 libXScrnSaver libXau libXaw libXcomposite libXcursor 
+libXdamage libXdmcp libXevie libXext libXfixes libXfont libXfontcache 
+libXft libXi libXinerama libXmu libXp libXpm libXrandr 
+libXrender libXres libXt libXtst libXv libXvMC libXxf86dga libXxf86misc 
+libXxf86vm libFS libICE libSM libdmx libdrm libfontenc libxcb 
+mesa pixman fontconfig glew 
+
+gd libiodbc libxkbfile 
+guile
+python
+
+

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+cd /usr/share/skype
+
+if ps -ef|grep -v grep|grep -q share/skype;then
+  exit
+fi
+ERR=1
+while [ $ERR -ne 0 ];do
+  rm -f ~/.Skype/Logs/skype*.log ~/.Skype/Logs/skype*.txt
+  cd /usr/share/skype
+  LD_PRELOAD=/usr/share/skype/lib32/libv4l/v4l2convert.so GCONV_PATH=/usr/share/skype/lib32/gconv QT_PLUGIN_PATH=/usr/share/skype/lib32/plugins /usr/share/skype/lib32/ld-linux.so.2 --library-path /usr/share/skype/lib32/ /usr/share/skype/skype
+  rm -f ~/.Skype/Logs/skype*.log ~/.Skype/Logs/skype*.txt
+  ERR=$?
+  sleep 2
+done &

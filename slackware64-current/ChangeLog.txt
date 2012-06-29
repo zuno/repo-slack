@@ -1,0 +1,16 @@
+Thu Apr 19 00:08:44 CEST 2012
+-----------------------------
+	new file:   bar/bar.SlackBuild
+	new file:   cabextract/cabextract.SlackBuild
+	new file:   centerim/centerim.SlackBuild
+	new file:   compat32-libraries/compat32-libraries.SlackBuild
+	new file:   corkscrew/corkscrew.SlackBuild
+	new file:   flash-player/flash-player.SlackBuild
+	new file:   gpart/gpart.SlackBuild
+	new file:   libsigc++/libsigc++.SlackBuild
+	new file:   nvidia-linux/nvidia-linux.SlackBuild
+	new file:   rarlinux/rarlinux.SlackBuild
+	new file:   skype_static/skype_static.SlackBuild
+	new file:   slackyd/slackyd.SlackBuild
+	new file:   unrar/unrar.SlackBuild
+

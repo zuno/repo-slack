@@ -1,0 +1,30 @@
+Slackware Notes:
+
+
+Questa versione di driver NVIDIA è tratto dall'originale scaricato dal sito
+ufficiale:
+NVIDIA-Linux-x86_64-295.33.run
+o
+NVIDIA-Linux-x86-295.33.run
+
+
+Per compilare o aggiornare il modulo del kernel, utilizzare lo script:
+/usr/share/nvidia-linux/makekernelmodule.sh
+
+
+Questi driver collimano, nella libGL e libglx, con i driver già installati dal
+sistema i quali saranno quindi backuppati in
+/usr/lib/xorg/modules/extensions/libglx.so-prenvidia
+/usr/lib64/xorg/modules/extensions/libglx.so-prenvidia
+
+
+Ad una eventuale disinstallazione dei driver NVIDIA questi due file vanno
+ripristinati (eliminando il suffisso -prenvidia) e successivamente va
+lanciato il comando "ldconfig"
+
+Se durante un upgrade del sistema (a current per esempio) dovessero venire
+aggiornati i pacchetti 'mesa' o 'xorg-server', è opportuno rilanciare lo
+script di postinstallazione dei driver nvidia:
+# cd /
+# bash /var/log/scripts/nvidia-linux-*
+
