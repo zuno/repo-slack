@@ -1,3 +1,9 @@
+Sat May  5 20:17:08 CEST 2012
+-----------------------------
+	modified:   compat32-libraries/compat32-libraries.SlackBuild
+	modified:   nvidia-linux/nvidia-linux.SlackBuild
+	modified:   skype_static/skype_static.SlackBuild
+
 Tue May  1 22:52:57 CEST 2012
 -----------------------------
 	modified:   chromium/chromium.SlackBuild

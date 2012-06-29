@@ -30,8 +30,8 @@ set -e
 SLACK=${SLACK:-current}  # if do you have slackware current: SLACK=current
 PKGNAME=skype_static
 VERSION=${VERSION:-2.2.0.35}
-BUILD=${BUILD:-4}
-TAG=${TAG:-mt_current}
+BUILD=${BUILD:-5}
+TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
 SOURCE=http://download.skype.com/linux/$PKGNAME-$VERSION.tar.bz2
 

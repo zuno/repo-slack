@@ -21,7 +21,7 @@ libXdamage libXdmcp libXevie libXext libXfixes libXfont libXfontcache
 libXft libXi libXinerama libXmu libXp libXpm libXrandr 
 libXrender libXres libXt libXtst libXv libXvMC libXxf86dga libXxf86misc 
 libXxf86vm libFS libICE libSM libdmx libdrm libfontenc libxcb 
-mesa pixman fontconfig glew 
+mesa pixman fontconfig glew freeglut
 
 gd libiodbc libxkbfile 
 guile
