@@ -5,6 +5,9 @@ a/aaa_elflibs     libgcc_s.so.1            usr/lib/libgcc_s.so.1
 a/aaa_elflibs     libglib-2.0.so.0         usr/lib/libglib-2.0.so.0
 a/aaa_elflibs     libgthread-2.0.so.0      usr/lib/libgthread-2.0.so.0
 a/aaa_elflibs     libz.so.1                usr/lib/libz.so.1
+a/aaa_elflibs     libgobject-2.0.so.0      usr/lib/libgobject-2.0.so.0
+a/aaa_elflibs     libjpeg.so.8             usr/lib/libjpeg.so.8
+a/aaa_elflibs     libtiff.so.4             usr/lib/libtiff.so.3
 a/cxxlibs         libstdc++.so.6           usr/lib/libstdc++.so.6
 a/glibc-solibs    ld-linux.so.2            lib/incoming/ld-2
 a/glibc-solibs    libc.so.6                lib/incoming/libc-2
@@ -30,14 +33,13 @@ x/libXScrnSaver   libXss.so.1              usr/lib/libXss.so.1
 x/libXau          libXau.so.6              usr/lib/libXau.so.6
 x/libXdmcp        libXdmcp.so.6            usr/lib/libXdmcp.so.6
 x/libXext         libXext.so.6             usr/lib/libXext.so.6
-x/libXi           libXi.so.6               usr/lib/libXi.so.6
-x/libXrandr       libXrandr.so.2           usr/lib/libXrandr.so.2
 x/libXrender      libXrender.so.1          usr/lib/libXrender.so.1
 x/libXv           libXv.so.1               usr/lib/libXv.so.1
 x/libxcb          libxcb.so.1              usr/lib/libxcb.so.1
 x/libXcursor	  libXcursor.so.1          usr/lib/libXcursor.so.1
 x/libXfixes       libXfixes.so.3           usr/lib/libXfixes.so.3
 x/libXinerama	  libXinerama.so.1         usr/lib/libXinerama.so.1
+x/libXrandr       libXrandr.so.2           usr/lib/libXrandr.so.2
 l/v4l-utils       libv4lconvert.so.0	   usr/lib/libv4lconvert.so.0
 l/v4l-utils       libv4l1.so.0             usr/lib/libv4l1.so.0
 l/v4l-utils       libv4l                   usr/lib/libv4l/$
