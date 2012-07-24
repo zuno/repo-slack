@@ -1,5 +1,6 @@
-dbus >= 1.4.1-x86_64-1
-glib2 >= 2.28.6-x86_64-1
+dbus >= 1.4.20-x86_64-1
+glib2 >= 2.32.3-x86_64-1
 glibc-solibs >= 2.15-x86_64-4
-libgcrypt >= 1.4.6-x86_64-1
-libgpg-error >= 1.9-x86_64-1
+libffi >= 3.0.11-x86_64-1
+libgcrypt >= 1.5.0-x86_64-1
+libgpg-error >= 1.10-x86_64-1

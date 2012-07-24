@@ -34,7 +34,7 @@ set -e
 # Basic information. 
 PKGNAME=centerim
 VERSION=${VERSION:-5a2}
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
 SOURCE="git+ssh://mob@repo.or.cz/srv/git/centerim5.git"

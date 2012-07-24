@@ -31,7 +31,7 @@ set -e
 # Basic information. 
 PKGNAME=libgnome-keyring
 VERSION=${VERSION:-3.5.3}
-BUILD=${BUILD:-1}
+BUILD=${BUILD:-2}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
 SOURCE="http://ftp.gnome.org/pub/gnome/sources/libgnome-keyring/3.5/$PKGNAME-$VERSION.tar.xz"

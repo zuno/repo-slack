@@ -1,3 +1,32 @@
+Tue Jul 24 02:30:09 CEST 2012
+-----------------------------
+	modified:   aMule/aMule.SlackBuild
+	modified:   amsn/amsn.SlackBuild
+	modified:   centerim/centerim.SlackBuild
+	modified:   chromium/chromium.SlackBuild
+	modified:   cnijfilter-mp495series/cnijfilter-mp495series.SlackBuild
+	modified:   cryptopp/cryptopp.SlackBuild
+	modified:   exif/exif.SlackBuild
+	modified:   farsight2/farsight2.SlackBuild
+	modified:   glib-networking/glib-networking.SlackBuild
+	modified:   gssdp/gssdp.SlackBuild
+	modified:   gst-python/gst-python.SlackBuild
+	modified:   gupnp-igd/gupnp-igd.SlackBuild
+	modified:   gupnp/gupnp.SlackBuild
+	modified:   libevent/libevent.SlackBuild
+	modified:   libgnome-keyring/libgnome-keyring.SlackBuild
+	modified:   libnice/libnice.SlackBuild
+	modified:   libproxy/libproxy.SlackBuild
+	modified:   libsoup/libsoup.SlackBuild
+	modified:   ntlmaps/ntlmaps.SlackBuild
+	modified:   skype_static/skype_static.SlackBuild
+	modified:   slackyd/slackyd.SlackBuild
+	modified:   slapt-get/slapt-get.SlackBuild
+	modified:   spkg/spkg.SlackBuild
+	modified:   ssldump/ssldump.SlackBuild
+	modified:   tls/tls.SlackBuild
+	modified:   wxWidgets/wxWidgets.SlackBuild
+
 Fri Jun 29 18:18:45 CEST 2012
 -----------------------------
 	modified:   GeoIP/GeoIP.SlackBuild

@@ -32,11 +32,11 @@ set -e
 
 # Basic information. 
 PKGNAME=libsoup
-VERSION=${VERSION:-2.35.5}
-BUILD=${BUILD:-2}
+VERSION=${VERSION:-2.38.1}
+BUILD=${BUILD:-1}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
-SOURCE="http://ftp.gnome.org/pub/GNOME/sources/libsoup/$(echo $VERSION|cut -f1-2 -d.)/$PKGNAME-$VERSION.tar.bz2"
+SOURCE="http://ftp.gnome.org/pub/GNOME/sources/libsoup/$(echo $VERSION|cut -f1-2 -d.)/$PKGNAME-$VERSION.tar.xz"
 TAR=      # empty = auto
 DIR=      # empty = auto
 

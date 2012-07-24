@@ -29,7 +29,7 @@ set -e
 
 PKGNAME=spkg
 VERSION=${VERSION:-1.0}
-BUILD=${BUILD:-3}
+BUILD=${BUILD:-4}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
 

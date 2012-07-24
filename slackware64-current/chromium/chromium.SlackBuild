@@ -26,21 +26,23 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-# Require GConf and ORBit2 from slackware*/extra/
+# Require ORBit2 from slackware*/extra/
 
 set -e 
 
 
 PKGNAME=chromium
 #VERSION=${VERSION:-SNAPSHOT} # Set to SNAPSHOT to install the latest release.
-VERSION=${VERSION:-21.0.1180.13} # or set your prefered realese
+#VERSION=${VERSION:-21.0.1180.13} # or set an exact realese
+VERSION=${VERSION:-22} # or set your prefered major version
 BUILD=${BUILD:-1}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
 SOURCE="http://commondatastorage.googleapis.com/chromium-browser-official"
 if [ "$VERSION" == "SNAPSHOT" ];then
-  VERSION=`wget $SOURCE/ -O -|egrep -o 'chromium-[0-9\.]+\.tar.bz2'|tail -1|sed -r 's/chromium-([0-9\.]+)\.tar.bz2/\1/'`
+  VERSION=.
 fi
+VERSION=$(wget http://src.chromium.org/viewvc/chrome/releases/?view=log -O - -q|grep DEPS|awk '{print $7}'|grep -m1 ^$VERSION)
 SOURCE=$SOURCE/chromium-$VERSION.tar.bz2
 TAR=      # empty = auto
 DIR=      # empty = auto
@@ -190,7 +192,7 @@ install -m 0644 -D $CWD/$PKGNAME.desktop \
 
 # Installing icons directory
 cd chrome/app/theme/chromium/
-for res in 16 22 24 32 48 64 128 256 ;do
+for res in 22 24 48 64 128 256 ;do
   dir=${PKG}/usr/share/icons/hicolor/${res}x${res}/apps
   mkdir -p ${dir}
   install -m0644 product_logo_${res}.png \
