@@ -1,7 +1,0 @@
-PRGNAM="libtasn1"
-VERSION="2.13"
-HOMEPAGE="http://www.gnu.org/software/libtasn1/"
-DOWNLOAD="http://ftp.gnu.org/gnu/libtasn1/libtasn1-2.13.tar.gz"
-MD5SUM="df27eaddcc46172377e6b907e33ddc83"
-DOWNLOAD_x86_64=""
-MD5SUM_x86_64=""

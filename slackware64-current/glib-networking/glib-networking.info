@@ -1,7 +1,0 @@
-PRGNAM="glib-networking"
-VERSION="2.32.3"
-HOMEPAGE="http://www.gnome.org"
-DOWNLOAD="http://ftp.gnome.org/pub/GNOME/sources/glib-networking/2.32/glib-networking-2.32.3.tar.xz"
-MD5SUM="bbad85de0a1466fdfd696e06d84b8f0d"
-DOWNLOAD_x86_64=""
-MD5SUM_x86_64=""

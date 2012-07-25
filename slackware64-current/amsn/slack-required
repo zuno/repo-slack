@@ -1,14 +1,14 @@
 cxxlibs >= 6.0.17-x86_64-1 | gcc-g++ >= 4.7.1-x86_64-1
-farsight2 >= 0.0.31-x86_64-1mt
+farsight2 >= 0.0.31-x86_64-2mt
 gcc >= 4.7.1-x86_64-1
 giflib >= 4.1.6-x86_64-1
 glib2 >= 2.32.3-x86_64-1
 glibc-solibs >= 2.15-x86_64-4
-gssdp >= 0.12.1-x86_64-3mt
+gssdp >= 0.12.1-x86_64-4mt
 gst-plugins-base >= 0.10.36-x86_64-1
 gstreamer >= 0.10.36-x86_64-1
-gupnp >= 0.18.3-x86_64-2mt
-gupnp-igd >= 0.2.1-x86_64-3mt
+gupnp >= 0.18.3-x86_64-3mt
+gupnp-igd >= 0.2.1-x86_64-4mt
 imlib >= 1.9.15-x86_64-7
 libICE >= 1.0.8-x86_64-1
 libSM >= 1.2.1-x86_64-1
@@ -19,7 +19,7 @@ libXext >= 1.3.1-x86_64-1
 libffi >= 3.0.11-x86_64-1
 libjpeg >= v8a-x86_64-1
 libpng >= 1.4.9-x86_64-1
-libsoup >= 2.38.1-x86_64-1mt
+libsoup >= 2.38.1-x86_64-1
 libtiff >= 3.9.6-x86_64-1
 libxcb >= 1.8.1-x86_64-1
 libxml2 >= 2.8.0-x86_64-1

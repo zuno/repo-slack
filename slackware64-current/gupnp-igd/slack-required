@@ -1,9 +1,9 @@
 glib2 >= 2.32.3-x86_64-1
 glibc-solibs >= 2.15-x86_64-4
-gssdp >= 0.12.1-x86_64-3mt
-gupnp >= 0.18.3-x86_64-2mt
+gssdp >= 0.12.1-x86_64-4mt
+gupnp >= 0.18.3-x86_64-3mt
 libffi >= 3.0.11-x86_64-1
-libsoup >= 2.38.1-x86_64-1mt
+libsoup >= 2.38.1-x86_64-1
 libxml2 >= 2.8.0-x86_64-1
 python >= 2.7.3-x86_64-2
 util-linux >= 2.21.2-x86_64-2
