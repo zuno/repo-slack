@@ -1,0 +1,7 @@
+PRGNAM="jre"
+VERSION="7u5"
+HOMEPAGE="http://www.java.com"
+DOWNLOAD="http://javadl.sun.com/webapps/download/AutoDL?BundleId=65685"
+MD5SUM="621131c104d77c6ca5e58784861dd060"
+DOWNLOAD_x86_64="http://javadl.sun.com/webapps/download/AutoDL?BundleId=65687"
+MD5SUM_x86_64="4c8850b82a536480cddd771012426f1b"

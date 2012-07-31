@@ -1,0 +1,7 @@
+PRGNAM="jdk"
+VERSION="7u5"
+HOMEPAGE="http://java.oracle.com"
+DOWNLOAD="http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1637583.html"
+MD5SUM=""
+DOWNLOAD_x86_64="http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1637583.html"
+MD5SUM_x86_64="c3b4dc26274b86fc3cd4b77ef04fea83"
