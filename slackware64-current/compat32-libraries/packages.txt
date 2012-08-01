@@ -10,8 +10,9 @@ gdk-pixbuf2
 alsa-lib alsa-oss atk audiofile cairo dbus-glib esound expat freetype gamin 
 glib2 libart_lgpl libexif libidn libjpeg libmng libpng libtermcap
 libtiff libxml2 jasper lcms libxslt ncurses svgalib v4l-utils popt qt
-readline sdl zlib gtk+2 pango seamonkey-solibs
+readline sdl zlib gtk+2 pango seamonkey-solibs libffi
 libcap libmpc libdbusmenu-qt libelf libsndfile t1lib libplist
+mozilla-nss
 
 
 curl cyrus-sasl gnutls libgcrypt libgpg-error openldap-client openssl

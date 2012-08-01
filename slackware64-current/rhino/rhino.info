@@ -1,0 +1,7 @@
+PRGNAM="rhino"
+VERSION="1_7R4"
+HOMEPAGE="http://www.mozilla.org/rhino/"
+DOWNLOAD="https://github.com/downloads/mozilla/rhino/rhino1_7R4.zip"
+MD5SUM="ad67a3dff135e3a70f0c3528a2d6edf2"
+DOWNLOAD_x86_64=""
+MD5SUM_x86_64=""

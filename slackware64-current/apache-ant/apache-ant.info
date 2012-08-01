@@ -1,0 +1,7 @@
+PRGNAM="apache-ant"
+VERSION="1.8.4"
+HOMEPAGE="http://ant.apache.org"
+DOWNLOAD="http://www.apache.org/dist/ant/binaries/apache-ant-1.8.4-bin.tar.gz"
+MD5SUM="f5975145d90efbbafdcabece600f716b"
+DOWNLOAD_x86_64=""
+MD5SUM_x86_64=""

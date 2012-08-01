@@ -1,3 +1,9 @@
+Wed Aug  1 15:56:16 CEST 2012
+-----------------------------
+	new file:   apache-ant/apache-ant.SlackBuild
+	modified:   compat32-libraries/compat32-libraries.SlackBuild
+	new file:   rhino/rhino.SlackBuild
+
 Tue Jul 31 10:21:14 CEST 2012
 -----------------------------
 	new file:   jdk/jdk.SlackBuild

@@ -29,8 +29,8 @@ set -e
 
 SLACK=${SLACK:-current}
 PKGNAME=compat32-libraries
-VERSION=1.1.04
-BUILD=${BUILD:-3}
+VERSION=1.1.99
+BUILD=${BUILD:-1}
 TAG=${TAG:-mt}
 ARCH=${ARCH:-x86_64}
 SOURCE=http://ftp.osuosl.org/pub/slackware/slackware-$SLACK/slackware
