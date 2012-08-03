@@ -1,0 +1,239 @@
+#!/bin/sh
+
+# Heavily based on the Slackware 14.0beta1 SlackBuild
+
+# Written by Matteo Rossini ( zerouno [at] slacky.it )
+# Last build from Matteo Rossini ( zerouno [at] slacky.it )
+
+# Slackware build script for openjdk
+# Official Site: http://openjdk.java.net/
+
+# Redistribution and use of this script, with or without modification, is
+# permitted provided that the following conditions are met:
+#
+# 1. Redistributions of this script must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+# THIS SOFTWARE IS PROVIDED BY THE AUTHOR ''AS IS'' AND ANY EXPRESS OR IMPLIED
+# WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+# EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+# OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+# ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# Required to build: apache-ant rhino
+
+set -e
+
+# Basic information. 
+PKGNAME=openjdk
+#VERSION=7u5_b21 #autodetected from IceTea
+BUILD=${BUILD:-1}
+TAG=${TAG:-mt}
+ARCH=${ARCH:-x86_64}
+ICEDTEAVER=${ICEDTEAVER:-2.2.1}
+SOURCE="http://icedtea.classpath.org/download/source/icedtea-$ICEDTEAVER.tar.gz"
+TAR=      # empty = auto
+DIR=      # empty = auto
+DOCS=""
+SBKFILES="generate-cacerts.pl openjdk.csh openjdk.sh"
+
+
+# If EULA
+if [ -e EULA.TXT ];then
+  more EULA.TXT
+  echo "Do you accept terms? (yes/[no])"
+  read ACCEPT
+  if [ "$ACCEPT" != "yes" ];then
+    echo; echo "SlackBuild Aborted!!"
+    exit 1
+  fi
+fi
+
+# Does not touch following if not needed
+JOBS=${JOBS:--j2}
+CWD=$(pwd)
+TMP=${TMP:-/tmp/buildpkgs/$PKGNAME}
+PKG=$TMP/package-$PKGNAME
+OUTPUT=${OUTPUT:-$CWD}
+TAR=${TAR:-$(basename $SOURCE)}
+DIR=${DIR:-$(echo "$TAR"|sed -r 's/(\.tar|)(.gz|.bz2|.xz|)$//')}
+
+if [ ! -e $CWD/$TAR ];then
+  wget $SOURCE # -O "$CWD/$TAR"
+fi
+
+CHOST="i486"
+if [ "$ARCH" = "i486" ]; then
+  SLKCFLAGS="-O2 -march=i486 -mtune=i686"
+  LIBDIRSUFFIX=""
+  LIB_ARCH=i386
+elif [ "$ARCH" = "i586" ]; then
+  SLKCFLAGS="-O2 -march=i586 -mtune=i686"
+  LIBDIRSUFFIX=""
+  LIB_ARCH=i386
+elif [ "$ARCH" = "i686" ]; then
+  SLKCFLAGS="-O2 -march=i686 -mtune=i686"
+  LIBDIRSUFFIX=""
+  LIB_ARCH=i386
+elif [ "$ARCH" = "x86_64" ]; then
+  SLKCFLAGS="-O2 -fPIC"
+  LIBDIRSUFFIX="64"
+  CHOST="x86_64"
+  LIB_ARCH=amd64
+fi
+
+### Preparing Source
+rm -rf $TMP
+mkdir -p $TMP $PKG $OUTPUT
+cd $TMP
+tar xvf $CWD/$TAR
+cd $DIR
+
+chown -R root:root .
+chmod -R u+w,go+r-w,a-s .
+
+SPKGS="corba hotspot jaxp jaxws jdk langtools openjdk"
+for SP in $SPKG;do
+  SRCOPTS="$SRCOPTS --with-$SP-src-zip=$SRC/$SP.tar.gz "
+  touch $CWD/$SP.tar.gz
+done
+VERSION=7u$(cat Makefile.in | grep ^JDK_UPDATE_VERSION | sed -r 's/^.* 0+//')_$(cat Makefile.in | grep ^OPENJDK_VERSION | sed -r 's/^.* //')
+
+export JVMDIR=/usr/lib${LIBDIRSUFFIX}/jvm
+export ALT_BOOTDIR=$JVMDIR
+export ECJJAR=/usr/share/java/ecj.jar
+export RTJAR=$TMP/$DIR/bootstrap/boot/jre/lib/rt.jar
+export PATH=$JVMDIR/bin:$PATH
+
+unset CLASSPATH
+unset JAVA_HOME
+unset MAKEFLAGS
+
+export ANT_HOME=/usr/share/ant
+export ALT_FREETYPE_LIB_PATH=/usr/lib${LIBDIRSUFFIX}
+export ALT_PARALLEL_COMPILE_JOBS="${JOBS/-j}"
+export BUILD_NUMBER=$JAVABLD
+export HOTSPOT_BUILD_JOBS="${ALT_PARALLEL_COMPILE_JOBS}"
+export LANG=C
+export OS_VARIANT_NAME="Slackware"
+export OS_VARIANT_VERSION=$(cat /etc/slackware-version | cut -f2 -d' ')
+
+
+mkdir -p bootstrap/boot/jre/lib
+
+# Customize as you need
+CFLAGS="$SLKCFLAGS" \
+CXXFLAGS="$SLKCFLAGS" \
+./configure \
+  $SRCOPTS \
+  --with-abs-install-dir=/usr/lib${LIBDIRSUFFIX}/java \
+  --with-pkgversion=Slackware \
+  --with-parallel-jobs=${HOTSPOT_BUILD_JOBS} \
+  --with-jdk-home=${JVMDIR} \
+  --disable-docs \
+  --disable-jamvm \
+  --disable-jdk-tests \
+  --disable-langtools-tests \
+  --disable-system-lcms \
+  --enable-nss \
+  --build=$CHOST-slackware-linux
+sed -i -e 's/-o native-ecj/-lgcj -o native-ecj/' Makefile
+make VERBOSE=TRUE
+
+## Do special operations
+mkdir -p $PKG/usr/lib${LIBDIRSUFFIX}
+cp -a openjdk.build/j2sdk-image $PKG/usr/lib${LIBDIRSUFFIX}/java
+mkdir certgen
+( cd certgen
+  for cert in /usr/share/ca-certificates/*/*.crt; do
+    openssl x509 -text -in "$cert" >> all.crt
+  done
+  perl $CWD/generate-cacerts.pl $PKG/usr/lib${LIBDIRSUFFIX}/java/jre/bin/keytool all.crt
+  install -p -m0644 cacerts $PKG/usr/lib${LIBDIRSUFFIX}/java/jre/lib/security
+)
+
+cp -a $PKG/usr/lib${LIBDIRSUFFIX}/java/jre/lib/fontconfig.Ubuntu.properties.src $PKG/usr/lib${LIBDIRSUFFIX}/java/jre/lib/fontconfig.properties.src
+cp -a $PKG/usr/lib${LIBDIRSUFFIX}/java/jre/lib/fontconfig.Ubuntu.bfc $PKG/usr/lib${LIBDIRSUFFIX}/java/jre/lib/fontconfig.bfc
+ln -sf java $PKG/usr/lib${LIBDIRSUFFIX}/jdk${VERSION}
+ln -sf ./java/jre/lib/${LIB_ARCH}/server/libjvm.so $PKG/usr/lib${LIBDIRSUFFIX}
+
+mkdir -p $PKG/etc/profile.d
+cat $CWD/openjdk.sh | sed -e "s#lib/java#lib${LIBDIRSUFFIX}/java#" > $PKG/etc/profile.d/openjdk.sh
+cat $CWD/openjdk.csh | sed -e "s#lib/java#lib${LIBDIRSUFFIX}/java#" > $PKG/etc/profile.d/openjdk.csh
+chmod 755 $PKG/etc/profile.d/*
+
+# Add menu entries and icons:
+for i in 16 24 32 48 ; do
+  mkdir -p $PKG/usr/share/icons/hicolor/${i}x${i}/apps
+  install -m644 openjdk/jdk/src/solaris/classes/sun/awt/X11/java-icon${i}.png \
+    $PKG/usr/share/icons/hicolor/${i}x${i}/apps/java.png
+done
+mkdir -p $PKG/usr/share/applications
+install -m644 *.desktop $PKG/usr/share/applications/
+sed -i -e "s,^Exec=/usr/bin/,Exec=," $PKG/usr/share/applications/*.desktop
+
+# User-modifiable configuration files go to /etc :
+mkdir -p $PKG/etc/java
+mv $PKG/usr/lib${LIBDIRSUFFIX}/java/jre/lib/${LIB_ARCH}/jvm.cfg $PKG/etc/java/jvm.cfg.new
+ln -sf /etc/java/jvm.cfg $PKG/usr/lib${LIBDIRSUFFIX}/java/jre/lib/${LIB_ARCH}/jvm.cfg
+mv $PKG/usr/lib${LIBDIRSUFFIX}/java/jre/lib/security/java.policy $PKG/etc/java/java.policy.new
+ln -sf /etc/java/java.policy $PKG/usr/lib${LIBDIRSUFFIX}/java/jre/lib/security/java.policy
+mv $PKG/usr/lib${LIBDIRSUFFIX}/java/jre/lib/security/java.security $PKG/etc/java/java.security.new
+ln -sf /etc/java/java.security $PKG/usr/lib${LIBDIRSUFFIX}/java/jre/lib/security/java.security
+cat $PKG/usr/lib${LIBDIRSUFFIX}/java/jre/lib/security/nss.cfg | sed -e 's/seamonkey-.*$/seamonkey/' > $PKG/etc/java/nss.cfg.new
+ln -sf /etc/java/nss.cfg $PKG/usr/lib${LIBDIRSUFFIX}/java/jre/lib/security/nss.cfg
+
+# Documentations
+mkdir -p $PKG/usr/doc/$PKGNAME-$VERSION/{icedtea,SlackBuild}
+( cd openjdk
+  cp -r \
+    ASSEMBLY_EXCEPTION LICENSE README* THIRD_PARTY_README \
+    $PKG/usr/doc/$PKGNAME-$VERSION
+)
+cp -a \
+  AUTHORS COPYING HACKING INSTALL NEWS README* THANKYOU \
+  $PKG/usr/doc/$PKGNAME-$VERSION/icedtea
+head -n 1000 ChangeLog > $PKG/usr/doc/$PKGNAME-$VERSION/ChangeLog
+touch -r ChangeLog $PKG/usr/doc/$PKGNAME-$VERSION/ChangeLog
+
+cd $CWD
+for SB in $PKGNAME.SlackBuild slack-desc doinst.sh doinst.sh.gz $SBKFILES;do
+  [ -e $SB ]&&cat $SB > $PKG/usr/doc/$PKGNAME-$VERSION/SlackBuild/$SB
+done
+
+if [ -d $PKG/usr/man ]; then
+    ( cd $PKG/usr/man
+      find . -type f -exec gzip -9 {} \;
+      for i in $( find . -type l ) ; do ln -s $( readlink $i ).gz $i.gz ; rm $i ; done
+    )
+fi
+
+( cd $PKG
+  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs -r strip --strip-unneeded 2> /dev/null || true
+  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs -r strip --strip-unneeded 2> /dev/null || true
+  find . | xargs file | grep "current ar archive" | cut -f 1 -d : | xargs -r strip --strip-unneeded 2> /dev/null || true
+)
+
+mkdir -p $PKG/install
+cat $CWD/slack-desc > $PKG/install/slack-desc
+[ -e $CWD/doinst.sh ] && cat $CWD/doinst.sh > $PKG/install/doinst.sh
+[ -e $CWD/doinst.sh.gz ] && zcat $CWD/doinst.sh.gz > $PKG/install/doinst.sh
+
+cd $PKG
+chown -R root:root $PKG
+
+if [ -x "$(which requiredbuilder 2>/dev/null)" ];then
+  ADD=$(cd /var/log/packages;ls rhino-1*|sed -r 's/rhino-/rhino >= /') requiredbuilder -y -v -s $CWD $PKG   # add "-c -b" if you have binary files in /usr/share 
+  [ -e $CWD/slack-required ]&&cat $CWD/slack-required > $PKG/usr/doc/$PKGNAME-$VERSION/SlackBuild/slack-required
+fi
+
+/sbin/makepkg -l y -c n $OUTPUT/$PKGNAME-$VERSION-$ARCH-$BUILD$TAG.${PKGTYPE:-txz}
+
+if [ "$1" = "--cleanup" ]; then
+  rm -rf $TMP
+fi

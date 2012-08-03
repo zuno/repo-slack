@@ -1,0 +1,7 @@
+PRGNAM="openjdk"
+VERSION="7u5_b21"
+HOMEPAGE="http://openjdk.java.net/"
+DOWNLOAD="http://icedtea.classpath.org/download/source/icedtea-2.2.1.tar.gz"
+MD5SUM="a104417178a1e5d10f28a3b03cb75f6c"
+DOWNLOAD_x86_64=""
+MD5SUM_x86_64=""
