@@ -1,0 +1,7 @@
+PRGNAM="icedtea-web"
+VERSION="1.2.1"
+HOMEPAGE="http://icedtea.classpath.org/wiki/IcedTea-Web"
+DOWNLOAD="http://icedtea.classpath.org/download/source/icedtea-web-1.2.1.tar.gz"
+MD5SUM="5003432e67d2f2db873d5534915f5208"
+DOWNLOAD_x86_64=""
+MD5SUM_x86_64=""

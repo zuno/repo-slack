@@ -1,3 +1,7 @@
+Mon Aug  6 13:25:46 CEST 2012
+-----------------------------
+	new file:   icedtea-web/icedtea-web.SlackBuild
+
 Fri Aug  3 13:12:30 CEST 2012
 -----------------------------
         new file:   openjdk/openjdk.SlackBuild

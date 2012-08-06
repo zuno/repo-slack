@@ -1,0 +1,18 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|' on
+# the right side marks the last column you can put a character in.  You must make
+# exactly 11 lines for the formatting to be correct.  It's also customary to
+# leave one space after the ':'.
+           |-----handy-ruler------------------------------------------------------|
+icedtea-web: icedtea-web (Java Web Start browser plugin)
+icedtea-web:
+icedtea-web: The IcedTea-Web project provides a Free Software web browser plugin
+icedtea-web: running applets written in the Java programming language and
+icedtea-web: an implementation of Java Web Start, originally based on the
+icedtea-web: NetX project.
+icedtea-web:
+icedtea-web:
+icedtea-web: For additional information, refer to this web page:
+icedtea-web:   http://icedtea.classpath.org/wiki/IcedTea-Web
+icedtea-web:

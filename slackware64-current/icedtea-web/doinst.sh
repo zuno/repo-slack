@@ -1,0 +1,10 @@
+# Update the desktop database:
+if [ -x /usr/bin/update-desktop-database ]; then
+  /usr/bin/update-desktop-database /usr/share/applications >/dev/null 2>&1
+fi
+
+# Update the mime database:
+if [ -x /usr/bin/update-mime-database ]; then
+  /usr/bin/update-mime-database /usr/share/mime >/dev/null 2>&1
+fi
+
