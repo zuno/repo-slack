@@ -1,1 +1,1 @@
-glibc-solibs >= 2.15-x86_64-4
+compat32-libraries >= 1.1.99-x86_64-1mt | glibc-solibs >= 2.15-x86_64-4 | skype_static >= 4.0.0.8-x86_64-1mt
