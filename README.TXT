@@ -1,1 +1,3 @@
-Slackbuilds for the repository http://www.z01.eu/repo-slack
+Temporary SlackBuilds for master branch.
+
+These SlackBuilds are NOT tested!!! (also, sometime may be not finished)

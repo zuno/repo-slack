@@ -97,11 +97,6 @@ cd $DIR
 chown -R root:root .
 chmod -R u+w,go+r-w,a-s .
 
-SPKGS="corba hotspot jaxp jaxws jdk langtools openjdk"
-for SP in $SPKG;do
-  SRCOPTS="$SRCOPTS --with-$SP-src-zip=$SRC/$SP.tar.gz "
-  touch $CWD/$SP.tar.gz
-done
 VERSION=7u$(cat Makefile.in | grep ^JDK_UPDATE_VERSION | sed -r 's/^.* 0+//')_$(cat Makefile.in | grep ^OPENJDK_VERSION | sed -r 's/^.* //')
 
 export JVMDIR=/usr/lib${LIBDIRSUFFIX}/jvm
