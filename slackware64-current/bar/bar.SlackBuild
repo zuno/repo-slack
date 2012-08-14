@@ -116,8 +116,6 @@ cd $CWD
 for SB in $PKGNAME.SlackBuild slack-desc doinst.sh doinst.sh.gz $SLKFILES;do
   [ -e $SB ]&&cp -r $SB $PKG/usr/doc/$PKGNAME-$VERSION/SlackBuild/$SB
 done
-cat $CWD/$PKGNAME.SlackBuild > $PKG/usr/doc/$PKGNAME-$VERSION/$PKGNAME.SlackBuild
-cat $CWD/slack-desc > $PKG/usr/doc/$PKGNAME-$VERSION/slack-desc
 
 if [ -d $PKG/usr/man ]; then
     ( cd $PKG/usr/man
