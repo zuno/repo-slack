@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Heavily based on the Slackware 13.37 SlackBuild (v1)
+# Heavily based on the Slackware 14.0rc1 SlackBuild (v1)
 
 # Written by Matteo Rossini ( zerouno @ slacky.it )
 # Last build from Matteo Rossini ( zerouno @ slacky.it )
@@ -25,9 +25,10 @@
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+# Require:
 
 set -e
-
 
 # Basic information. 
 PKGNAME=corkscrew
@@ -38,6 +39,8 @@ ARCH=${ARCH:-x86_64}
 SOURCE=http://www.agroman.net/corkscrew/$PKGNAME-$VERSION.tar.gz
 TAR=      # empty = auto
 DIR=      # empty = auto
+DOCS="AUTHORS COPYING ChangeLog INSTALL NEWS README TODO"
+SLKFILES=""
 
 # If EULA
 if [ -e EULA.TXT ];then
@@ -76,7 +79,9 @@ elif [ "$ARCH" = "x86_64" ]; then
   SLKCFLAGS="-O2 -fPIC"
   LIBDIRSUFFIX="64"
   CHOST="x86_64"
+  JOBS=${JOBS:--j3}
 fi
+JOBS=${JOBS:--j2}
 
 ### Preparing Source
 rm -rf $TMP
@@ -99,19 +104,19 @@ CXXFLAGS="$SLKCFLAGS" \
   --localstatedir=/var \
   --mandir=/usr/man \
   --build=$CHOST-slackware-linux
-make
+make $JOBS
 make install DESTDIR=$PKG
 
 ## Do special operations
 
 # Documentations
-mkdir -p $PKG/usr/doc/$PKGNAME-$VERSION
-cp -r \
-  [A-Z]* \
-  $PKG/usr/doc/$PKGNAME-$VERSION
+mkdir -p $PKG/usr/doc/$PKGNAME-$VERSION/SlackBuild
+cp -r $DOCS $PKG/usr/doc/$PKGNAME-$VERSION
 
-cat $CWD/$PKGNAME.SlackBuild > $PKG/usr/doc/$PKGNAME-$VERSION/$PKGNAME.SlackBuild
-cat $CWD/slack-desc > $PKG/usr/doc/$PKGNAME-$VERSION/slack-desc
+cd $CWD
+for SB in $PKGNAME.SlackBuild slack-desc doinst.sh doinst.sh.gz $SLKFILES;do
+  [ -e $SB ]&&cp -r $SB $PKG/usr/doc/$PKGNAME-$VERSION/SlackBuild/$SB
+done
 
 if [ -d $PKG/usr/man ]; then
     ( cd $PKG/usr/man
@@ -129,6 +134,7 @@ fi
 mkdir -p $PKG/install
 cat $CWD/slack-desc > $PKG/install/slack-desc
 [ -e $CWD/doinst.sh ] && cat $CWD/doinst.sh > $PKG/install/doinst.sh
+[ -e $CWD/doinst.sh.gz ] && zcat $CWD/doinst.sh.gz > $PKG/install/doinst.sh
 
 cd $PKG
 chown -R root:root $PKG
